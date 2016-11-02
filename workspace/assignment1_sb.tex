@@ -1,0 +1,193 @@
+% Enable warnings about problematic code
+\RequirePackage[l2tabu, orthodox]{nag}
+
+\documentclass{WeSTassignment}
+
+% The lecture title, e.g. "Web Information Retrieval".
+\lecture{Introduction to Web Science}
+% The names of the lecturer and the instructor(s)
+\author{%
+  Prof. Dr.~Steffen~Staab\\{\normalsize\mailto{staab@uni-koblenz.de}} \and
+  Ren{\'e}~Pickhardt\\{\normalsize\mailto{rpickhardt@uni-koblenz.de}} \and
+   Korok~Sengupta\\{\normalsize\mailto{koroksengupta@uni-koblenz.de}}
+}
+% Assignment number.
+\assignmentnumber{1}
+% Institute of lecture.
+\institute{%
+  Institute of Web Science and Technologies\\%
+  Department of Computer Science\\%
+  University of Koblenz-Landau%
+}
+% Date until students should submit their solutions.
+\datesubmission{November 2, 2016, 10:00 a.m.}
+% Date on which the assignments will be discussed in the tutorial.
+\datetutorial{November 4th, 2016, 12:00 p.m.}
+
+% Set langauge of text.
+\setdefaultlanguage[
+  variant = american, % Use American instead of Britsh English.
+]{english}
+
+% Specify bib file location.
+\addbibresource{bibliography.bib}
+
+% For left aligned centerd boxes
+% see http://tex.stackexchange.com/a/25591/75225
+\usepackage{varwidth}
+
+% ==============================================================================
+% Document
+
+\begin{document}
+
+\maketitle
+
+The main objective of this assignment is for you to use different tools with which you can understand the network that you are connected to or you are connecting to in a better sense.
+These tasks are not always specific to \enquote{Introduction to Web Science}.
+For all the assignment questions that require you to write a code, make sure to include the code in the answer sheet, along with a separate python file. Where screen shots are required, please add them in the answers directly and not as separate files. 
+
+% As such, this assignment will not award any points, and you will \emph{not} have
+% to submit your solution.
+% If you want to know whether your solutions were correct, mail them to
+% \mailto{lukas@uni-koblenz.de}.
+
+% ------------------------------------------------------------------------------
+
+\section{Ethernet Frame (5 Points)}
+
+Ethernet Frame is of the given structure:
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.9\textwidth]{1.png}
+   \caption{Ethernet Frame Structure}
+     \label{fig:ethernet}
+\end{figure}
+
+Given below is an Ethernet frame without the Preamble and the Frame Check Sequence.\\ 
+ 
+\texttt{00 27 10 21 fa 48 00 13 \hspace{0.5cm} 10 e8 dd 52 08 06 00 01\\ 08 00 06 04 00 01 00 13 \hspace{0.5cm} 10 e8 dd 52 c0 a8 02 01\\ 00 00 00 00 00 00 c0 a8 \hspace{0.5cm} 02 67} \\ \\
+
+\underline{Find}:
+\begin{enumerate}
+\item Source MAC Address
+\item Destination MAC Address
+\item What protocol is inside the data payload?
+\item Please mention what the last 2 fields hold in the above frame.
+\end{enumerate}
+
+\begin{enumerate}
+\item Source MAC Adres (6 Bytes): 00 13 10 e8 dd 52
+\item Destination MAC Address (6 Bytes): 00 27 10 21 fa 48
+\item protocl inside the data payload (2 Bytes): 08 06 \rightarrow Address Resolution Protocol (ARP) (for IP and for CHAOS)
+\item last 2 fields:
+28 Bytes ARP request or ARP reply\\
+(source hardware address/source protocol address/ target hardware address/target potocol address)\\
+00 01 08 00 06 04 00 01\\
+00 13 10 e8 dd 52 c0 a8\\
+02 01 00 00 00 00 00 00\\
+c0 a8 02 67;\\
+10 bytes padding \rightarrow filler bytes to reach minimum of 46 bytes\\
+00 00 00 00 00 00 00 00\\
+00 00\\
+\end{enumerate}
+
+
+
+% ------------------------------------------------------------------------------
+
+\section{Cable Issue (5 Points)}
+
+Let us consider we have two cables of 20 meters each. One of them is in a 100MBps network while the other is in a 10MBps network. If you had to transfer data through each of them, how much time it would take for the first bit to arrive in each setting? (For your calculation you can assume that the speed of light takes the same value as in the videos.) Please provide formulas and calculatoins along with your results. 
+
+speed $\cdot$ time = distance\\
+\\
+speed = 300 000 000 m/s\\
+distance = 20m\\
+time $\rightarrow$ unknown\\
+\\
+100Mbit/s:
+300 000 000 m/s $\cdot t_{100} \cdot 10^{-8}$ = 20m\\
+$t_{100}$ = 20/3s = 6,666s\\
+\\
+10Mbit/s:
+300 000 000 m/s $\cdot t_{10} \cdot 10^{-7}$ = 20m\\
+$t_{10}$ = 200/3 = 66,666s
+% ------------------------------------------------------------------------------
+
+
+\section{Basic Network Tools (10 Points)}
+
+Listed below are some of the commands which you need to "google" to understand what they stand for:
+\begin{enumerate}
+\item \emph{ipconfig / ifconfig}
+\item \emph{ping}
+\item \emph{traceroute}
+\item \emph{arp}
+\item \emph{dig}
+\end{enumerate}
+Consider a situation in which you need to check if \url{www.wikipedia.org} is reachable or not. Using the knowledge you gained above to \underline{find the following information}:
+\begin{enumerate}
+\itemsep0em
+\item The \emph{\% packet loss} if at all it happened after sending 100 packets. 
+\item \emph{Size} of the packet sent to \emph{Wikipedia} server
+\item \emph{IP address} of your machine and the \emph{Wikipedia} server
+\item \emph{Query Time} for DNS query of the above url.
+\item Number of \emph{Hops} in between your machine and the server
+\item MAC address of the device that is acting as your network gateway. 
+\end{enumerate}
+
+Do this once in the university and once in your home/dormitory network. With your answers, you must paste the screen shots to validate your find.
+
+
+
+% ------------------------------------------------------------------------------
+
+\section{Simple Python Programming (10 Points)}
+
+Write a simple \underline{python program that does the following}:
+\begin{enumerate}
+\item Generate a random number sequence of 10 values between 0 to 90. 
+\item Perform \texttt{sine} and \texttt{cosine} operation on numbers generated. 
+\item Store the values in two different arrays named SIN \& COSIN respectively. 
+\item Plot the values of SIN \& COSIN in two different colors. 
+\item The plot should have labeled axes and legend.
+\end{enumerate}
+
+
+# assignment 1 task4
+# Andrea Mildes - mildes@uni-koblenz.de
+# Sebastian Blei - sblei@uni-koblenz.de
+
+
+import random
+import math
+import matplotlib.pyplot as plt
+import matplotlib.patches as lpatches
+
+sin = []
+cosin = []
+xcoord = []
+
+plt.axis([0, 90, 0, 1])
+plt.xlabel('x [radiant]')
+plt.ylabel('y')
+
+for i in range(0, 10):
+    x = random.randint(0,90)
+    xcoord.append(x)
+    sin.append(math.sin(math.radians(x)))
+    cosin.append(math.cos(math.radians(x))) 
+
+plt.plot(xcoord, sin, "ro",  label = "sinus")
+plt.plot(xcoord, cosin, "g^", label = "cosinus")
+
+plt.legend(bbox_to_anchor = (1.05, 1), loc = 2, borderaxespad = 0)
+
+plt.show()
+
+
+
+\makefooter
+
+\end{document}
