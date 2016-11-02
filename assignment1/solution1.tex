@@ -1,0 +1,99 @@
+\documentclass{article}
+
+\title{Introduction to Web Science -- Assignment 1}
+\author{\textbf{Group hotel}\\Andrea Mildes 212100201 \texttt{mildes@uni-koblenz.de}\\Sebastian Blei 211100448 \texttt{sblei@uni-koblenz.de}}
+\date{}
+
+\usepackage{mathtools}
+
+\begin{document}
+
+\maketitle
+
+\section{Ethernet Frame}
+
+\begin{itemize}
+ \item Source MAC Address (6 bytes): \texttt{00 13 10 e8 dd 52}
+ \item Destination MAC Address (6 bytes): \texttt{00 27 10 21 fa 48}
+ \item Protocol inside the data payload (2 bytes): \texttt{08 06} (Address Resolution Protocol (ARP) (for IP and for CHAOS))
+ \item last 2 fields:
+ 
+ 28 bytes arp request or arp reply\\
+ (source hardware address/srouce protocl address/target hardware address/target protocol address)\\
+ \texttt{00 01 08 00 06 04 00 01\\
+ 00 13 10 e8 dd 25 c0 a8\\
+ 02 01 00 00 00 00 00 00\\
+ c0 a8 02 67}
+ 
+ 10 bytes padding (filler bytes to reach minimum of 46 bytes)\\
+ \texttt{00 00 00 00 00 00 00 00\\
+ 00 00}
+\end{itemize}
+
+\clearpage
+\section{Cable Issue}
+
+\begin{equation}
+ speed \cdot time = distance
+\end{equation}
+
+\begin{align}
+ speed &= 300\,000\,000\frac{m}{s} \\
+ distance &= 20m\\
+ time &= unknown
+\end{align}
+
+$100\frac{Mbit}{s}$:
+\begin{align}
+ 300 000 000\frac{m}{s} \cdot t_{100} \cdot 10^{-8} = 20m\\
+ t_{100} = \frac{200s}{3\frac{m}{s}} = 6.666s
+\end{align}
+
+
+$10\frac{Mbit}{s}$:
+\begin{align}
+ 300 000 000\frac{m}{s} \cdot t_{10} \cdot 10^{-7} = 20m\\
+ t_{10} = \frac{200s}{3\frac{m}{s}} = 66.666s
+\end{align}
+
+\clearpage
+\section{Basic Network Tools}
+
+\section{Simple Python Programming}
+
+\begin{verbatim}
+# assignment 1 task4
+# Andrea Mildes - mildes@uni-koblenz.de
+# Sebastian Blei - sblei@uni-koblenz.de
+
+
+import random
+import math
+import matplotlib.pyplot as plt
+import matplotlib.patches as lpatches
+
+sin = []
+cosin = []
+xcoord = []
+
+plt.axis([0, 90, 0, 1])
+plt.xlabel('x [radiant]')
+plt.ylabel('y')
+
+for i in range(0, 10):
+    x = random.randint(0,90)
+    xcoord.append(x)
+    sin.append(math.sin(math.radians(x)))
+    cosin.append(math.cos(math.radians(x))) 
+
+plt.plot(xcoord, sin, "ro",  label = "sinus")
+plt.plot(xcoord, cosin, "g^", label = "cosinus")
+
+plt.legend(bbox_to_anchor = (1.05, 1), loc = 2, borderaxespad = 0)
+
+plt.show()
+\end{verbatim}
+
+
+
+\end{document}
