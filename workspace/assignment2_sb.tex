@@ -7,7 +7,9 @@
 
 \author{%
   Sebastian Blei \\ \normalsize{211100448} \\{\normalsize sblei@uni-koblenz.de} \and
-  Andrea Mildes \\ \normalsize{212100201} \\{\normalsize mildes@uni-koblenz.de}
+  Andrea Mildes \\ \normalsize{212100201} \\{\normalsize mildes@uni-koblenz.de} \and
+  Johannes Kirchner \\ \normalsize{jkirchner@uni-koblenz.de} \and
+  Abdul Afghan \\ \normalsize{Guest Student} \\ \normalsize(No Uni Credentials yet)
 }
 
 \title{Assignment 2 \\ hotel}
@@ -77,9 +79,21 @@ The hosts sends its information to the Router R1. The Router sends the informati
 
 Let us consider you have 2 Wide Area Networks. One with a bandwidth of 10 Mbps (Delay of 20 ms) and the other with 1 Mbps (Delay of 30 ms) . If a packet is considered to be of size 10kb. Calculate the window size of number of packets necessary for Sliding Window Protocol. [\texttt{5 points}]\\ \\
 Since you now understand the concept of Window Size for Sliding Window Protocol and how to calculate it, consider a window size of 3 packets and you have 7 packets to send. Draw the process of \texttt{Selective Repeat Sliding Window Protocol} where in the 3rd packet from the sender is lost while transmission. Show diagrammatically how the system reacts when a packet is not received and how it recuperates from that scenario. [\texttt{5 points}] \\
-
-
-
+\\
+\textbf{\underline{Answer:}}\\
+\\
+1.) 10Mbit/s\\ 
+Window Size = 10 000 000 $\frac{bit}{s} \cdot$ 0.02s = 200 000 bit\\
+Number of packets = $\frac{200~000~bit}{10~000~bit}$ = 20\\
+\\
+1 Mbit/s\\
+Window Size = 1 000 000 $\frac{bit}{s} \cdot$ 0.03s = 30 000 bit\\
+Number of packets = $\frac{30~000~bit}{10~000~bit}$ = 3\\
+\\
+2.) The sender sends his SYN to the recipient along with the first three packets. \\
+The recipient receives only packet 1 and 2, therefore sending only his ACK for packet 1 and 2 back to the sender. The recipients window slides 2 packets down and it is ready to receive packet 3, 4 and 5.\\
+The sender then sends packet 3,4 and 5. The recipient receives all of them, sends back his ACK for those 3 packets and sliding his window 3 packets down, ready to receive packet 6 and 7.\\
+The sender then sends the last remaining packets 6 and 7, the recipient recieves them and the transmission is complete.
 
 % ------------------------------------------------------------------------------
 
