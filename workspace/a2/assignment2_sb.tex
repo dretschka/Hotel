@@ -8,7 +8,7 @@
 \author{%
   Sebastian Blei \\ \normalsize{211100448} \\{\normalsize sblei@uni-koblenz.de} \and
   Andrea Mildes \\ \normalsize{212100201} \\{\normalsize mildes@uni-koblenz.de} \and
-  Johannes Kirchner \\ \normalsize{jkirchner@uni-koblenz.de} \and
+  Johannes Kirchner \\ \normalsize{213200317} \\ \normalsize{jkirchner@uni-koblenz.de} \and
   Abdul Afghan \\ \normalsize{Guest Student} \\ \normalsize(No Uni Credentials yet)
 }
 
@@ -17,6 +17,7 @@
 
 \usepackage{varwidth}
 \usepackage{graphicx}
+\usepackage{listings}
 
 % ==============================================================================
 % Document
@@ -112,6 +113,49 @@ Given below are the following points that your client and server must perform: [
 \end{enumerate}
 
 Provide a snapshot of the results along with the code. \\
+\\
+\textbf{\underline{Answer:}}\\
+\\
+\textbf{Client:}
 
+\begin{lstlisting}
+import socket
+import json
+
+s = socket.socket()
+s.connect(('localhost', 8080))
+
+name = input('Please insert name: ')
+age = input('Please insert age: ')
+mat = input('Please insert matrikelnumber: ')
+
+jsonObj = {'Name': name, 'Age': age, 'Matrikelnummer': mat}
+jsonStr = json.dumps(jsonObj)
+
+s.send(jsonStr.encode())
+
+s.close()
+\end{lstlisting}
+\newpage
+\textbf{Server:}
+
+\begin{lstlisting}
+import socket
+import json
+
+s = socket.socket()
+s.bind(('localhost', 8080))
+
+s.listen(5)
+
+while True:
+	c, addr = s.accept()
+	jsonData = c.recv(1024)
+	jsonObj = json.loads(jsonData.decode())
+	print('Name: ', jsonObj['Name'])
+	print('Age: ', jsonObj['Age'])
+	print('Matrikelnummer: ', jsonObj['Matrikelnummer'])
+	c.close()
+\end{lstlisting}
 
 \end{document}
