@@ -35,6 +35,7 @@
 % For left aligned centerd boxes
 % see http://tex.stackexchange.com/a/25591/75225
 \usepackage{varwidth}
+\usepackage{listings}
 
 % ==============================================================================
 % Document
@@ -89,7 +90,12 @@ The Protocol for sending the URL will be a string terminated with \backslash r \
 
 P.S.: You are \textbf{not} allowed to use libraries like \texttt{urlparse} for this question. You will also not use "Regular Expressions" for this. 
 
-\textbf{Answer:} 
+\textbf{Answer:} \\
+\underline{Server:}\\
+\lstinputlisting{server.py}
+\underline{client:}\\
+\lstinputlisting{client.py}
+
 
 % ------------------------------------------------------------------------------
 
