@@ -16,11 +16,22 @@ while True:
 	c, addr = s.accept()
 	jsonData = c.recv(1024)
 	jsonObj = json.loads(jsonData.decode())
-	print('Protocol: ')
+	
+	urlString = jsonObj['url']
+	
+	urlSplitList = urlString.split("://")
+	
+	print('Url: ', jsonObj['url'])
+	print('Protocol: ', urlSplitList[0])
 	print('Domiain: ')
 	print('Sub-Domain: ')
 	print('Port Number: ')
 	print('Path: ')
 	print('Parameters: ')
 	print('Fragment: ')
+	
+	print(urlSplitList)
 	c.close()
+	
+	
+# http://www.example.com:80/path/to/myfile.html?key1=value1&key2=value2#InTheDocument	
