@@ -1,3 +1,9 @@
+# assignment 4 task 2
+# Andrea Mildes - mildes@uni-koblenz.de
+# Sebastian Blei - sblei@uni-koblenz.de
+# Johannes Kirchner - jkirchner@uni-koblenz.de
+# Abdul Afghan - abdul.afghan@outlook.de
+
 import sys
 import re
 
@@ -28,5 +34,4 @@ def get_urls(data):
 data = get_file('index.php')
 links = get_urls(data)
 print(links)
-print(len(links))
 

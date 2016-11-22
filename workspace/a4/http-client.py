@@ -1,3 +1,9 @@
+# assignment 4 task 1
+# Andrea Mildes - mildes@uni-koblenz.de
+# Sebastian Blei - sblei@uni-koblenz.de
+# Johannes Kirchner - jkirchner@uni-koblenz.de
+# Abdul Afghan - abdul.afghan@outlook.de
+
 import socket
 import sys
 from urllib.parse import urlparse
@@ -6,8 +12,8 @@ from urllib.parse import urlparse
 def get_url():
     #args = sys.argv[1]
     #print(args)
-    #args = 'http://west.uni-koblenz.de/sites/default/files/styles/personen_bild/public/_IMG0076-Bearbeitet_03.jpg'
-    args = 'http://west.uni-koblenz.de/en/studying/courses/ws1617/introduction-to-web-science'
+    args = 'http://west.uni-koblenz.de/sites/default/files/styles/personen_bild/public/_IMG0076-Bearbeitet_03.jpg'
+    #args = 'http://west.uni-koblenz.de/en/studying/courses/ws1617/introduction-to-web-science'
     return args
 
 
@@ -37,14 +43,35 @@ def sep_data(data):
     return
 
 
+def get_contenttype(header):
+    pos = header.decode().find("Content-Type:")
+    if pos != -1:
+        #Find "Content-Type"
+        #Remove "Content-Type: " from selection
+        c_type = header[pos+14:]
+        i = c_type.find(b";")
+        if i != -1:
+            return c_type[:i]
+        else:
+            return c_type
+    else:
+        print('No content type found :(')
+        return
+
+
 def write_file(header, content):
     headerfile = open('index.php.header', 'wb')
     headerfile.write(header)
     headerfile.close()
 
-    contentfile = open('index.php', 'wb')
-    contentfile.write(content)
-    contentfile.close()
+    if get_contenttype(header) == b"text/html":
+        contentfile = open('index.php', 'wb')
+        contentfile.write(content)
+        contentfile.close()
+    elif get_contenttype(header) == b"image/jpeg":
+        contentfile = open('image', 'wb')
+        contentfile.write(content)
+        contentfile.close()
     return
 
 url = get_url()
@@ -52,3 +79,4 @@ data = get_data(url)
 header, content = sep_data(data)
 write_file(header, content)
 print(header.decode())
+print(get_contenttype(header))
