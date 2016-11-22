@@ -26,22 +26,17 @@ def get_file(filename):
 #Get all image urls from the file
 def get_urls(data, url):
     domain = urlparse(url)
-    pattern = re.compile('(<img .* \/>)')
+    pattern = re.compile("<img.+?src=[\"'](.+?)[\"'].*?>")
     images = pattern.findall(data.decode())
 
-    pattern2 = re.compile('(?<=src=")(.*?)(?=")')
-    links = []
-    for element in images:
-        links.append(pattern2.findall(element))
-
     #Fix relative paths
-    for i in range(0, len(links)):
-        url_comps = urlparse(links[i][0])
+    for i in range(0, len(images)):
+        url_comps = urlparse(images[i])
         if url_comps.netloc == "":
-            links[i] = domain.scheme + "://" + domain.netloc + links[i][0]
+            images[i] = domain.scheme + "://" + domain.netloc + images[i]
         else:
-            links[i] = links[i][0]
-    return links
+            images[i] = images[i]
+    return images
 
 
 #iterate over the list and call the function from task 01
@@ -56,7 +51,7 @@ def main_func():
     data = get_file(filename)
     links = get_urls(data, url)
     download_images(links)
-    print(links)
+#    print(links)
 
 
 if __name__ == '__main__':
