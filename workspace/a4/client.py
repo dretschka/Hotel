@@ -58,7 +58,7 @@ def get_contenttype(header):
         return
 
 
-def write_file(header, content):
+def write_file(header, content, url):
     headerfile = open('index.php.header', 'wb')
     headerfile.write(header)
     headerfile.close()
@@ -68,15 +68,21 @@ def write_file(header, content):
         contentfile.write(content)
         contentfile.close()
     elif get_contenttype(header) == b"image/jpeg":
-        url_comps = urlparse(get_url())
+        url_comps = urlparse(url)
         i = url_comps.path.rfind('/')
+        print('\n' + url_comps.path[i+1:] + '\n')
         contentfile = open(url_comps.path[i+1:], 'wb')
         contentfile.write(content)
         contentfile.close()
     return
 
-url = get_url()
-data = get_data(url)
-header, content = sep_data(data)
-write_file(header, content)
-print(header.decode())
+
+def main_func(url):
+    data = get_data(url)
+    header, content = sep_data(data)
+    write_file(header, content, url)
+    print(header.decode())
+
+
+if __name__ == '__main__':
+    main_func(get_url())
