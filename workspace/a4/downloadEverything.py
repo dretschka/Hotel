@@ -49,7 +49,9 @@ def main_func():
     data = get_file(filename)
     links = get_urls(data, url)
     download_images(links)
-#    print(links)
+    print('\n\n URLs found: ')
+    for element in links:
+        print(element)
 
 
 if __name__ == '__main__':

@@ -17,12 +17,14 @@ def get_url():
 
 #Parse the url in its components,
 #create a socket and connect to a webserver on port 80.
-#Send a GET Request and wait till all chunks arrived. If the next chunk is empty, continue.
+#Send a GET Request and wait till all chunks arrived.
+# If the next chunk is empty, continue.
 def get_data(url):
     url_comps = urlparse(url)
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.connect((url_comps.netloc, 80))
-    sock.sendall(b'GET ' + bytes(url_comps.path, encoding='utf-8') + b' HTTP/1.0')
+    sock.sendall(b'GET ' +
+                 bytes(url_comps.path, encoding='utf-8') + b' HTTP/1.0')
     sock.sendall(b'Host: ' + bytes(url_comps.netloc, encoding='utf-8'))
     sock.sendall(b'\n\n')
     data = b""
