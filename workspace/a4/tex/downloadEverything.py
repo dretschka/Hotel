@@ -4,6 +4,7 @@
 # Johannes Kirchner - jkirchner@uni-koblenz.de
 # Abdul Afghan - abdul.afghan@outlook.de
 
+
 import sys
 import re
 import client
@@ -13,9 +14,6 @@ from urllib.parse import urlparse
 def get_args():
     filename = sys.argv[1]
     url = sys.argv[2]
-    #print(args)
-    #args = 'http://west.uni-koblenz.de/sites/default/files/styles/personen_bild/public/_IMG0076-Bearbeitet_03.jpg'
-    #args = 'http://west.uni-koblenz.de/en/studying/courses/ws1617/introduction-to-web-science'
     return filename, url
 
 #open the file

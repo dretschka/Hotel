@@ -4,6 +4,7 @@
 # Johannes Kirchner - jkirchner@uni-koblenz.de
 # Abdul Afghan - abdul.afghan@outlook.de
 
+
 import socket
 import sys
 from urllib.parse import urlparse
@@ -11,8 +12,6 @@ from urllib.parse import urlparse
 #Get the command line argument
 def get_url():
     args = sys.argv[1]
-    #args = 'http://west.uni-koblenz.de/sites/default/files/styles/personen_bild/public/_IMG0076-Bearbeitet_03.jpg'
-    #args = 'http://west.uni-koblenz.de/en/studying/courses/ws1617/introduction-to-web-science'
     return args
 
 
@@ -74,7 +73,6 @@ def write_file(header, content, url):
     elif b"image" in get_contenttype(header):
         url_comps = urlparse(url)
         i = url_comps.path.rfind('/')
-        print('\n')
         contentfile = open(url_comps.path[i+1:], 'wb')
         contentfile.write(content)
         contentfile.close()
