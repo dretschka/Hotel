@@ -10,9 +10,8 @@ from urllib.parse import urlparse
 
 
 def get_url():
-    #args = sys.argv[1]
-    #print(args)
-    args = 'http://west.uni-koblenz.de/sites/default/files/styles/personen_bild/public/_IMG0076-Bearbeitet_03.jpg'
+    args = sys.argv[1]
+    #args = 'http://west.uni-koblenz.de/sites/default/files/styles/personen_bild/public/_IMG0076-Bearbeitet_03.jpg'
     #args = 'http://west.uni-koblenz.de/en/studying/courses/ws1617/introduction-to-web-science'
     return args
 
@@ -81,4 +80,3 @@ data = get_data(url)
 header, content = sep_data(data)
 write_file(header, content)
 print(header.decode())
-print(get_contenttype(header))
