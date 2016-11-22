@@ -69,7 +69,9 @@ def write_file(header, content):
         contentfile.write(content)
         contentfile.close()
     elif get_contenttype(header) == b"image/jpeg":
-        contentfile = open('image', 'wb')
+        url_comps = urlparse(get_url())
+        i = url_comps.path.rfind('/')
+        contentfile = open(url_comps.path[i+1:], 'wb')
         contentfile.write(content)
         contentfile.close()
     return
