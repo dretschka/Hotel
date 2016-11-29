@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# assignment 5 task 2
+# assignment 5 task 1
 # Andrea Mildes - mildes@uni-koblenz.de
 # Sebastian Blei - sblei@uni-koblenz.de
 # Johannes Kirchner - jkirchner@uni-koblenz.de
@@ -132,10 +132,14 @@ class Server:
              if (request_method == 'GET'):
                  server_response +=  response_content  # return additional conten for GET only
 
-             #AJAX LONG POLLING
+             #***********************************************
+             #Our code to make the Javascript work
+             #***********************************************
              if request_method == 'GET' and string.count('?long') > 0:
-                 user_input = input('What message do you want to send to the client?')
-                 new_data = "<!DOCTYPE html><html><head><title>User Input</title></head><body>"\
+                 user_input = input('What message do you want '
+                                    'to send to the client?')
+                 new_data = "<!DOCTYPE html><html><head><title>" \
+                            "User Input</title></head><body>"\
                             + user_input \
                             + "</body></html>"
 

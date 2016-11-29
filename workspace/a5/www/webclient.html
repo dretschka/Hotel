@@ -1,8 +1,8 @@
-*/assignment 5 task 2
+<!--assignment 5 task 1
 # Andrea Mildes - mildes@uni-koblenz.de
 # Sebastian Blei - sblei@uni-koblenz.de
 # Johannes Kirchner - jkirchner@uni-koblenz.de
-#Abdul Afghan - abdul.afghan@outlook.de */
+#Abdul Afghan - abdul.afghan@outlook.de -->
 <html>
 <head>
 	<title>Abusing the HTTP protocol - Example</title>
@@ -12,7 +12,6 @@
         ajax.onreadystatechange = function () {
             var response_text = ajax.responseText;
             var bodyHtml = /<body.*?>([\s\S]*)<\/body>/.exec(response_text)[1];
-            alert(bodyHtml);
             document.getElementById("response").innerHTML = bodyHtml;
         };
         ajax.send(null);

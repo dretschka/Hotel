@@ -192,7 +192,6 @@ def worker(starting_url):
             decoding_error += 1
             file = open('log.txt', 'a')
             file.write("\n ********** UTF8 DECODING ERROR ********** \n\n")
-            file.write("\n\n BTW: Found %s links until now \n\n" % len(total_links))
             file.close()
             continue
 
@@ -214,7 +213,7 @@ def report_func():
     main_func()
 
     # total links: [(total links, internal links, external links)]
-    return visited, total_links
+    return len(visited), total_links
 
 
 # call all functions
