@@ -7,8 +7,8 @@
 # HTTP Requests
 import socket
 
-# Parse the URLs
-from urllib.parse import urlparse
+# Parse the URLs und decode them
+import urllib.parse
 
 # Required for the makedirs command which is used to create the folder structure
 import os
@@ -19,12 +19,12 @@ import re
 # Used for time-measuring (debug purposes)
 import time
 
-
 # Globals
 visited = set()
 set_queue = set()
 ext_links = 0
 downloaded = 0
+total_links = []
 
 
 def recv_all(sock):
@@ -41,7 +41,7 @@ def recv_all(sock):
 # Send a GET Request and wait till all chunks arrived.
 # If the next chunk is empty, continue.
 def do_http_get_request(url):
-    url = urlparse(url)
+    url = urllib.parse.urlparse(url)
     path = url.path
     if path == "":
         path = "/"
@@ -74,6 +74,9 @@ def save_to_file(body, path):
     if path[0:1] == "/":
         path = path[1:]
 
+    # convert path to UTF-8
+    path = urllib.parse.unquote_plus(path)
+
     # create directories if not already exist
     if path.count("/") > 0:
         os.makedirs(os.path.dirname("dump/" + path), exist_ok=True)
@@ -85,9 +88,12 @@ def save_to_file(body, path):
 
 
 def search_all_links(body, url):
-    global ext_links, visited, set_queue
+    global ext_links, visited, set_queue, total_links
     q = set()
-    url = urlparse(url)
+    count_external_links = 0
+    count_internal_links = 0
+
+    url = urllib.parse.urlparse(url)
     pattern = re.compile("<a.+?href=[\"'](.+?)[\"'].*?>")
 
     # Sometimes there is an Unicode Decode Error, so we simply catch it, log it and proceed
@@ -98,16 +104,19 @@ def search_all_links(body, url):
 
     # Do stuff with all found links
     for i in range(0, len(links)):
-        url_i = urlparse(links[i])
+        url_i = urllib.parse.urlparse(links[i])
 
         # Ignore external links
         if url_i.netloc != '':
             if url_i.netloc != '141.26.208.82':
-                ext_links += 1
+                # Count all external links
+                count_external_links += 1
                 continue
             else:
                 break
 
+        # Count all internal links
+        count_internal_links += 1
         count = links[i].count("../")
 
         # Remove all ../ from the URL
@@ -133,6 +142,7 @@ def search_all_links(body, url):
 
         q.add(result)
 
+    total_links.append((count_internal_links + count_external_links, count_internal_links, count_external_links))
     return q
 
 
@@ -141,7 +151,7 @@ def print_log(duration, decoding_error):
     duration_perc = "(" + str(round(((duration/1645)*100), 2)) + "%)"
     downloaded_perc = "(" + str(round(((downloaded/85322)*100), 1)) + "%)"
     file = open('log.txt', 'a')
-    file.write("Duration: %-8s %-8s | Visited: %-8s | Queue: %-8s | Decoding-Errors: %-2s | Downloaded: %-5s %-7s\n" %
+    file.write("Duration: %-9s %-9s | Visited: %-8s | Queue: %-8s | Decoding-Errors: %-2s | Downloaded: %-5s %-7s\n" %
                (duration_min, duration_perc, len(visited), len(set_queue), decoding_error, downloaded, downloaded_perc))
     file.close()
 
@@ -158,7 +168,7 @@ def worker(starting_url):
         c += 1
 
         # Logging
-        if c % 500 == 0:
+        if c % 1000 == 0:
             t = (time.time() - start_time)
             print_log(t, decoding_error)
 
@@ -181,21 +191,30 @@ def worker(starting_url):
         else:
             decoding_error += 1
             file = open('log.txt', 'a')
-            file.write("\n UNICODE DECODING ERROR AT: \n" + "[" + str(round((time.time() - start_time), 1)) + "]"
-                       + "Visited: " + str(len(visited)) +
-                       " | Queue: " + str(len(set_queue)) + " Decoding-Error: " + str(decoding_error)
-                       + " | Downloaded: " + str(downloaded) + "\n\n")
+            file.write("\n ********** UTF8 DECODING ERROR ********** \n\n")
+            file.write("\n\n BTW: Found %s links until now \n\n" % len(total_links))
             file.close()
             continue
 
+    t = (time.time() - start_time)
+    print_log(t, decoding_error)
     file = open('log.txt', 'a')
-    file.write("Finished crawling after " + str(round((time.time() - start_time), 1)) + " seconds.  " + "Visited "
-               + str(len(visited)) + " sites. " + str(len(set_queue)) + " remaining in queue. " + decoding_error
-               + " decoding errors. " + str(downloaded)
-               + " downloaded files \n")
+    file.write("\n *************************************** \n")
+    file.write("\n\n ********** FINISHED CRAWLING ********** \n\n")
+    file.write("\n *************************************** \n")
     file.close()
 
     return
+
+
+# returns all necessary information for task 3
+def report_func():
+    # Total amount of webpages
+    # external and internal links per webbpage
+    main_func()
+
+    # total links: [(total links, internal links, external links)]
+    return visited, total_links
 
 
 # call all functions
