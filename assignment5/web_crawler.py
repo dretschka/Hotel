@@ -25,6 +25,7 @@ visited = set()
 set_queue = set()
 ext_links = 0
 downloaded = 0
+total_links = []
 
 
 def recv_all(sock):
@@ -85,8 +86,11 @@ def save_to_file(body, path):
 
 
 def search_all_links(body, url):
-    global ext_links, visited, set_queue
+    global ext_links, visited, set_queue, total_links
     q = set()
+    count_external_links = 0
+    count_internal_links = 0
+
     url = urlparse(url)
     pattern = re.compile("<a.+?href=[\"'](.+?)[\"'].*?>")
 
@@ -103,11 +107,14 @@ def search_all_links(body, url):
         # Ignore external links
         if url_i.netloc != '':
             if url_i.netloc != '141.26.208.82':
-                ext_links += 1
+                # Count all external links
+                count_external_links += 1
                 continue
             else:
                 break
 
+        # Count all internal links
+        count_internal_links += 1
         count = links[i].count("../")
 
         # Remove all ../ from the URL
@@ -133,6 +140,7 @@ def search_all_links(body, url):
 
         q.add(result)
 
+    total_links.append((count_internal_links, count_external_links))
     return q
 
 
@@ -141,7 +149,7 @@ def print_log(duration, decoding_error):
     duration_perc = "(" + str(round(((duration/1645)*100), 2)) + "%)"
     downloaded_perc = "(" + str(round(((downloaded/85322)*100), 1)) + "%)"
     file = open('log.txt', 'a')
-    file.write("Duration: %-8s %-8s | Visited: %-8s | Queue: %-8s | Decoding-Errors: %-2s | Downloaded: %-5s %-7s\n" %
+    file.write("Duration: %-8s %-9s | Visited: %-8s | Queue: %-8s | Decoding-Errors: %-2s | Downloaded: %-5s %-7s\n" %
                (duration_min, duration_perc, len(visited), len(set_queue), decoding_error, downloaded, downloaded_perc))
     file.close()
 
@@ -158,7 +166,7 @@ def worker(starting_url):
         c += 1
 
         # Logging
-        if c % 500 == 0:
+        if c % 1000 == 0:
             t = (time.time() - start_time)
             print_log(t, decoding_error)
 
@@ -196,6 +204,14 @@ def worker(starting_url):
     file.close()
 
     return
+
+
+# returns all necessary information for task 3
+def report_func():
+    # Total amount of webpages
+    # external and internal links per webbpage
+    main_func()
+    return visited, total_links
 
 
 # call all functions
