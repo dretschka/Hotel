@@ -1,0 +1,24 @@
+<html>
+<head>
+	<title>Abusing the HTTP protocol - Example</title>
+	<script>
+        var ajax = new XMLHttpRequest();
+        ajax.open('GET', 'http://localhost:8080/webclient.html?long=1', true);
+        ajax.onreadystatechange = function () {
+            var response_text = ajax.responseText;
+            var bodyHtml = /<body.*?>([\s\S]*)<\/body>/.exec(response_text)[1];
+            alert(bodyHtml);
+            document.getElementById("response").innerHTML = bodyHtml;
+        };
+        ajax.send(null);
+    </script>
+</head>
+<body>
+	<h1>Display data from the Server</h1>
+	The following line changes on the servers command line
+	input: <br>
+	<span id="response" style="color:red">
+		This will be replaced by messages from the server
+	</span>
+</body>
+</html>
