@@ -7,43 +7,46 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as lpatches
-import web_crawler.py as crawl
+import web_crawler as crawl
 
 visited, total_links = crawl.report_func()
+
 all = 0
 tmplist = []
-for each item in total_links:
-	all += total_links[item[0]]
-	tmplist.append(total_links[item[0]])
+for item in total_links:
+	all += item[0]
+	tmplist.append(item[0])
 	
 average = all/len(total_links)
 sortlist = np.sort(tmplist)
-median = sortlist[len(sortlist)]
+medi = np.median(sortlist)
 
-print('total number of webpages: ' + visited)
-print('total number of links encountered: ' + all)
-print('average number of links per webpage: ' + average)
-print('median number of links per webpage: ' + median)
+print('total number of webpages: ' + str(visited))
+print('total number of links encountered: ' + str(all))
+print('average number of links per webpage: ' + str(average))
+print('median number of links per webpage: ' + str(medi))
+
+linkCount = [link[0] for link in total_links]
 
 # histogram
-# scatterplot
-
-
 plt.figure(1)
 plt.subplot(211)
 plt.xlabel('links per webpage')
 plt.ylabel('frequency')
 plt.title('Histogram of distribution of links')
-plt.axis([0, 150, 0, 150])
+#plt.axis([0, 150, 0, 1500])
 plt.grid(True)
-plt.hist(sortlist, 30, normed=1, range=(0,150), facecolor='r', alpha=0.75)
+plt.hist(linkCount, bins=30, range=(0,150), facecolor='g', alpha=0.75)
 
+# scatterplot
 plt.subplot(212)
 plt.xlabel('number of internal links')
 plt.ylabel('number of external links')
-plt.title('scatter plot')
+plt.title('scatter plot - relation from internal to external links')
 for i in total_links:
-	x = total_links[i[1]]
-	y = total_links[i[2]]
-	plt.scatter(x, y, s=area, c=colors, alpha=0.5)
+	x = i[1]
+	y = i[2]
+	area = i[0]
+	plt.scatter(x, y, s=area, alpha=0.5)
+plt.tight_layout()
 plt.show()
