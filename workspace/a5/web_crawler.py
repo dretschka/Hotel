@@ -140,7 +140,7 @@ def search_all_links(body, url):
 
         q.add(result)
 
-    total_links.append((count_internal_links, count_external_links))
+    total_links.append((count_internal_links + count_external_links, count_internal_links, count_external_links))
     return q
 
 
@@ -189,18 +189,16 @@ def worker(starting_url):
         else:
             decoding_error += 1
             file = open('log.txt', 'a')
-            file.write("\n UNICODE DECODING ERROR AT: \n" + "[" + str(round((time.time() - start_time), 1)) + "]"
-                       + "Visited: " + str(len(visited)) +
-                       " | Queue: " + str(len(set_queue)) + " Decoding-Error: " + str(decoding_error)
-                       + " | Downloaded: " + str(downloaded) + "\n\n")
+            file.write("\n\n ********** UTF8 DECODING ERROR ********** \n\n")
             file.close()
             continue
 
+    t = (time.time() - start_time)
+    print_log(t, decoding_error)
     file = open('log.txt', 'a')
-    file.write("Finished crawling after " + str(round((time.time() - start_time), 1)) + " seconds.  " + "Visited "
-               + str(len(visited)) + " sites. " + str(len(set_queue)) + " remaining in queue. " + decoding_error
-               + " decoding errors. " + str(downloaded)
-               + " downloaded files \n")
+    file.write("\n *************************************** \n")
+    file.write("\n\n ********** FINISHED CRAWLING ********** \n\n")
+    file.write("\n *************************************** \n")
     file.close()
 
     return
@@ -211,6 +209,8 @@ def report_func():
     # Total amount of webpages
     # external and internal links per webbpage
     main_func()
+
+    # total links: [(total links, internal links, external links)]
     return visited, total_links
 
 
