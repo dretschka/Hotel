@@ -1,4 +1,9 @@
 #!/usr/bin/python
+# assignment 5 task 2
+# Andrea Mildes - mildes@uni-koblenz.de
+# Sebastian Blei - sblei@uni-koblenz.de
+# Johannes Kirchner - jkirchner@uni-koblenz.de
+# Abdul Afghan - abdul.afghan@outlook.de
 
 import socket  # Networking support
 import signal  # Signal support (server shutdown on signal receive)
