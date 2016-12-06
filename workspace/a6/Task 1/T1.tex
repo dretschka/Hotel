@@ -1,0 +1,61 @@
+\documentclass{article}
+
+\usepackage{amssymb}
+\usepackage[fleqn]{amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage{varwidth}
+
+\title{Aufgabe 1}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{}
+\subsection{}
+$f: M \rightarrow \mathbb{R}$\\
+\noindent
+\begin{align*}
+||f||_1 := \sum_{x \in M}{|f(x)|}
+\end{align*}\\
+\[||f||_\infty := \sup_{x \in M} ||f(x)||_\mathbb{R} = \sup \{|f(x)| : x \in M\}\]\\
+\\
+f(0) = 2, f(1) = -4, f(2) = 8, f(3) = -4\\
+g(0) = 5, g(1) = 1, g(2) = 7, g(3) = -3\\
+\\
+\[||f-g||_1 = \sum_{x \in M}{|f(x) - g(x)|}\]\\
+= $| 2-5| + |-4 -1| + |8-7| + |-4 - (-3)|$\\
+= $ 3 + 5 + 1 + 1$\\
+= 10\\
+\\
+\[||f-g||_\infty = \sup_{x \in M} ||f(x) - g(x)||_\mathbb{R} = \sup \{|f(x) - g(x)| : x\in M\}\]\\
+\\
+|f(0) - g(0)| = |2 - 5| = 3\\
+|f(1) - g(1)| = |-4 - 1| = 5\\
+|f(2) - g(2)| = |8 - 7| = 1 \\
+|f(3) - g(3)| = |-4 - (-3)| = 1\\
+\[\rightarrow \sup_{x \in M} ||f(x) - g(x)||_\mathbb{R} = 5\]\\
+\\
+\subsection{}
+\subsubsection{Positive definite}
+$||f||_1 = 0 \Rightarrow f = 0$\\
+\[||f||_1 =  0 \Leftrightarrow \sum_{x \in M}{|f(x)|} = 0\] \\
+\[ \Rightarrow \sum_{x \in M} {|f(x)|} = 0\] \\
+$ \Rightarrow| f(0)| + |f(1)| + ... + |f(x)| = 0$ \\
+$ \Rightarrow f(x) = 0~\forall x$ \\
+$\Rightarrow f = 0$
+
+\subsubsection{Homogeneous}
+$||\alpha f||_1 = |\alpha|~||f||_1, \alpha \in \mathbb{R}$\\
+\\
+\[||\alpha f||_1 := \sum_{x \in M}{|\alpha|~|f(x)|}\]\\
+\[\Rightarrow \sum_{x \in M}{|\alpha|~|f(x)|} = |\alpha| \cdot |f(0)| + |\alpha| \cdot |f(1)| + ... + |\alpha| \cdot |f(x)\] \\
+$\Rightarrow |\alpha| \cdot ( |f(0)| + |f(1)| + ... + |f(x)|)$ \\
+\[\Rightarrow |\alpha| \cdot \sum_{x \in M}{ |f(x)|}\] \\
+$\Rightarrow |\alpha|~||f||_1$\\
+Since $\alpha$ has to be positive for our usage, we can write $\alpha$ instead of $|\alpha|$ and thus gain: $\alpha ||f||_1$
+\newpage
+\subsubsection{Triangle inequality}
+
+\end{document}
