@@ -24,7 +24,7 @@ def draw_graph(a, an, the, count, total):
               'Occurrences of \'a\' = %.0f\n' \
               'Occurrences of \'the\' = %.0f\n' \
               'Combined occurrences = %.0f\n' \
-              'scanned article texts = %.0f\n' \
+              'Scanned article texts = %.0f\n' \
               'Percentage of texts starting \n' \
               'with an acrticle = %.4f' % \
               (an, a, the, total, count, ((total/count)*100))
@@ -74,7 +74,7 @@ def main():
     print("Occurrences of \'The\': " + str(the))
     print("Combined occurrences: " + str(total))
     print("Total amount of article texts: " + str(count))
-    print("Percentage of texts starting with an article: " + str(total / count))
+    print("Percentage of texts starting with an article: " + str((total / count)*100))
     draw_graph(a, an, the, count, total)
 
 
