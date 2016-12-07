@@ -49,6 +49,14 @@ For all the assignment questions that require you to write code, make sure to in
 %Please mention your team Names here: 
 Team Name: hotel
 
+Andrea Mildes - mildes@uni-koblenz.de
+
+Sebastian Blei - sblei@uni-koblenz.de
+
+Johannes Kirchner - jkirchner@uni-koblenz.de
+
+Abdul Afghan - abdul.afghan@outlook.de
+
 % ------------------------------------------------------------------------------
 \section{Digging deeper into Norms (10 points)}
 
@@ -181,7 +189,7 @@ The most interesting would be the start of an article, as there the user decides
 \begin{itemize}
 	\item In the whole article text of the Simple English Wikipedia are more occurrences of vowels than consonants. \\ This hypothesis is false if there are more consonants than vowels in the article texts of the Simple English Wikipedia.
 	\item In the whole article text of the Simple English Wikipedia are more occurrences of letters than numbers. \\ This hypothesis is false if there are more occurrences of numbers than letters in the article texts of the Simple English Wikipedia.
-	\item In the Simple English Wikipedia more than 30\% of article texts start with a definite or indefinite article. \\ This hypothesis is false if 50\% or less of the opening words in the article texts of the Simple English Wikipedia are articles. 
+	\item In the Simple English Wikipedia more than 30\% of article texts start with a definite or indefinite article. \\ This hypothesis is false if 30\% or less of the opening words in the article texts of the Simple English Wikipedia are articles. 
 \end{itemize}
 4. 
 We choose hypothesis three: "In the Simple English Wikipedia more than 30\% of article texts start with a definite or indefinite article.". The hypothesis is already testable.\\
@@ -197,14 +205,18 @@ In the above question, you were asked to formulate your hypothesis. In this one,
 
 \subsection{Hints:}
 \begin{itemize}
-\item In case feel uncomfortable to test one of the predictions from task 2 you can "steal" one of the many hypothesis (and with them imlicitly associated testable predictions) or diagrams depicted from the lecture and reproduce it. However in that case you cannot expect to get the total amount of points for task 3. 
+\item In case feel uncomfortable to test one of the predictions from task 2 you can "steal" one of the many hypothesis (and with them imlicitly associated testable predictions) or diagrams depicted from the lecture and reproduce it. However in that case you cannot expect to get the total amount of points for task 3.
 \end{itemize}
 
 \textbf{Answer:}
 \\
-Out of 119,753 articles 24,304 started with a definite or indefinite article. This corresponds to a percentage of 20.3\%.
+Out of 119,753 article texts 24,304 started with a definite or indefinite article. This corresponds to a percentage of 20.3\%. Therefore, the hypothesis "In the Simple English Wikipedia more than 30\% of article texts start with a definite or indefinite article." must be rejected. 
 
-\includegraphics[width=450px]{articleRatio}
+\textbf{Code:}
+\lstinputlisting{articleCounter.py}
+\hspace*{-100px}
+\includegraphics[width=610px]{console_output}
+\includegraphics[width=450px]{figure_2}
 
 % ------------------------------------------------------------------------------
 
