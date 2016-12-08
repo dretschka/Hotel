@@ -1,0 +1,153 @@
+% Enable warnings about problematic code
+\RequirePackage[l2tabu, orthodox]{nag}
+
+\documentclass{WeSTassignment}
+
+% The lecture title, e.g. "Web Information Retrieval".
+\lecture{Introduction to Web Science}
+% The names of the lecturer and the instructor(s)
+\author{%
+  Prof. Dr.~Steffen~Staab\\{\normalsize\mailto{staab@uni-koblenz.de}} \and
+  Ren{\'e}~Pickhardt\\{\normalsize\mailto{rpickhardt@uni-koblenz.de}} \and
+   Korok~Sengupta\\{\normalsize\mailto{koroksengupta@uni-koblenz.de}} \and 
+   Olga~Zagovora\\{\normalsize\mailto{zagovora@uni-koblenz.de}}
+}
+% Assignment number.
+\assignmentnumber{7}
+% Institute of lecture.
+\institute{%
+  Institute of Web Science and Technologies\\%
+  Department of Computer Science\\%
+  University of Koblenz-Landau%
+}
+% Date until students should submit their solutions.
+\datesubmission{December 14, 2016, 10:00 a.m.}
+% Date on which the assignments will be discussed in the tutorial.
+\datetutorial{December 16, 2016, 12:00 p.m.}
+
+% Set langauge of text.
+\setdefaultlanguage[
+  variant = american, % Use American instead of Britsh English.
+]{english}
+
+% Specify bib file location.
+\addbibresource{bibliography.bib}
+
+% For left aligned centerd boxes
+% see http://tex.stackexchange.com/a/25591/75225
+\usepackage{varwidth}
+
+% ==============================================================================
+% Document
+
+\begin{document}
+
+\maketitle
+Please look at the lessons 1) \textbf{Similarity of Text} \& 2) \textbf{Generative Models}
+
+For all the assignment questions that require you to write code, make sure to include the code in the answer sheet, along with a separate python file. Where screen shots are required, please add them in the answers directly and not as separate files.\\ \\ 
+
+%Please mention your team Names here: 
+Team Name: XXXX
+
+
+\section{Modelling Text in a Vector Space and calculate similarity (10 points)}
+
+Given the following three documents:
+
+$D_1$ = this is a text about web science 
+
+$D_2$ = web science is covering the analysis of text corpora 
+
+$D_3$ = scientific methods are used to analyze webpages 
+
+\subsection{Get a feeling for similarity as a human}
+Without applying any modeling methods just focus on the semantics of each document and decide which two Documents should be most similar. Explain why you have this opinion in a short text using less than 500 characters. 
+
+\subsection{Model the documents as vectors and use the cosine similarity}
+Now recall that we used vector spaces in the lecture in order to model the documents. 
+
+\begin{enumerate}
+\item How many base vectors would be needed to model the documents of this corpus?
+\item What does each dimension of the vector space stand for?
+\item How many dimensions does the vector space have? 
+\item Create a table to map words of the documents to the base vectors.
+\item Use the notation and formulas from the lecture to represent the documents as document vectors in the word vector space. You can use the term frequency of the words as coefficients. You can / should omit the inverse document frequency.
+\item Calculate the cosine similarity between all three pairs of vectors.
+\item According to the cosine similarity which 2 documents are most similar according to the constructed model. 
+\end{enumerate}
+
+\subsection{Discussion}
+Do the results of the model match your expectations from the first subtask? If yes explain why the vector space matches the similarity given from the semantics of the documents. If no explain what the model lacks to take into consideration. Again 500 Words should be enough. 
+
+
+
+%-------------------------------------------------------------------------------
+
+\section{Building generative models and compare them to the observed data (10 points)}
+This week we provide you with two probability distributions for characters and spaces which can be found next to the exercise sheet on the WeST website. Also last week we provided you with a dump of Simple English Wikipedia which should be reused this week.
+
+\subsection{build a generator}
+Count the characters and spaces in the Simple English Wikipedia dump. Let the combined number be $n$. 
+Use the sampling method from the lecture to sample $n$ characters (which could be letters or a space) from each distribution.
+Store the result for the generated text for each distribution in a file.
+
+\subsection{Plot the word rank frequency diagram and CDF}
+Count the resulting words from the provided data set and from the generated text for each of the probability distributions. 
+Create a word rank frequency diagram which contains all 3 data sets. 
+Also create a CDF plot that contains all three data sets. 
+
+\subsection{Which generator is closer to the original data?}
+Let us assume you would want to creat a test corpus for some experiments. That test corpus has to have a similar word rank frequency diagram as the original data set. Which of the two generators would you use? You should perform the Kolmogorov Smirnov test as discussed in the lecture by calculating the maximum pointwise distance of the CDFs. 
+
+\textbf{How do your results change when you generate the two text corpora for a second or third time? What will be the values of the Kolmogorov Smirnov test in these cases?}
+
+\subsection{Hints:}
+\begin{enumerate}
+\item Build the cummulative distribution function for the text corpus and the two generated corpora
+\item Calculate the maximum pointwise distance on the resulting CDFs
+\item You can use \texttt{Collections.Counter}, \texttt{matplotlib} and \texttt{numpy}. You shouldn't need other libs. 
+\end{enumerate}
+
+
+%-------------------------------------------------------------------------------
+
+%-------------------------------------------------------------------------------
+
+\section{Understanding of the cumulative distribution function (10 points)}
+
+Write a fair 6-side die rolling simulator. A fair die is one for which each face appears with equal likelihood. Roll two dice simultaneously n (=100) times and record the sum of both dice each time. 
+
+\begin{enumerate}
+\item Plot a readable histogram with frequencies of dice sum outcomes from the simulation. 
+\item Calculate and plot cumulative distribution function.
+\item Answer the following questions using CDF plot:
+
+What is the median sum of two dice sides?  Mark the point on the plot.
+
+What is the probability of dice sum to be equal or less than 9? Mark the point on the plot.
+
+%What are the values 
+\item Repeat the simulation a second time and compute the maximum point-wise distance of both CDFs.
+\item Now repeat the simulation (2 times) with n=1000 and compute the maximum point-wise distance of both CDFs.
+\item What conclusion can you draw from increasing the number of steps in the simulation?  
+
+\end{enumerate}
+
+
+\subsection{Hints}
+\begin{enumerate}
+\item You can use function from the lecture to calculate rank and normalized cumulative sum for CDF.
+\item Do not forget to give proper names of CDF plot axes or maybe even change the ticks values of x-axis. 
+\end{enumerate}
+
+\subsection{Only for nerds and board students (0 Points)}
+Assuming 20 groups of students. What is the likelihood that at least two groups come up with the same histograms in the case for n (=100)?
+
+
+
+
+
+\makefooter
+
+\end{document}
