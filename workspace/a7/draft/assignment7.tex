@@ -123,18 +123,18 @@ $\vec{D_2} = 1 \cdot w_2 + 1 \cdot w_4 + 1 \cdot w_6 + 1 \cdot w_7 + 1 \cdot w_8
 $\vec{D_3} = 1 \cdot w_{13} + 1 \cdot w_{14} + 1 \cdot w_{15} + 1 \cdot w_{16} + 1 \cdot w_{17} + 1 \cdot w_{18} + 1 \cdot w_{19} = \begin{pmatrix} 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 1 \\ 1 \\ 1 \\ 1 \\ 1 \\ 1 \\ 1 \end{pmatrix} $
 
 \item $\cos{(D_1 D_2)} =  \frac{D_1 \cdot D_2} {||D_1|| \cdot ||D_2||}  \\
-= \frac{1 \cdot 0 + 1 \cdot 1 + 1 \cdot 0 + 1 \cdot 1 + 1 \cdot 0 + 1 \cdot 1 + 1 \cdot 1 + 0 \cdot 1 + 0 \cdot 1 + 0 \cdot 1 + 0 \cdot 1 + 0 \cdot 1 }{\sqrt{7} \cdot \sqrt{7}} \\
-= \frac{4}{7}$ \\
+= \frac{1 \cdot 0 + 1 \cdot 1 + 1 \cdot 0 + 1 \cdot 1 + 1 \cdot 0 + 1 \cdot 1 + 1 \cdot 1 + 0 \cdot 1 + 0 \cdot 1 + 0 \cdot 1 + 0 \cdot 1 + 0 \cdot 1 }{\sqrt{7} \cdot \sqrt{9}} \\
+= \frac{4}{\sqrt{7} \cdot \sqrt{9}}$ \\
 \\
 $\cos{(D_2 D_3)} =  \frac{D_2 \cdot D_3} {||D_2|| \cdot ||D_3||}  \\
-= \frac{0}{\sqrt{7} \cdot \sqrt{7}} \\
+= \frac{0}{\sqrt{9} \cdot \sqrt{8}} \\
 = 0$\\
 \\
 $\cos{(D_1 D_3)} =  \frac{D_1 \cdot D_3} {||D_1|| \cdot ||D_3||}  \\
-= \frac{0}{\sqrt{7} \cdot \sqrt{7}} \\
+= \frac{0}{\sqrt{7} \cdot \sqrt{8}} \\
 = 0$
 
-\item $\Theta_{D_1 D_2} = cos^{-1}(\frac{4}{7}) = 55,15°$\\
+\item $\Theta_{D_1 D_2} = cos^{-1}(\frac{4}{7}) = 59,738°$\\
 \\
 $\Theta_{D_2 D_3} = cos^{-1}(0) = 90°$ \\
 \\
@@ -212,7 +212,26 @@ What is the probability of dice sum to be equal or less than 9? Mark the point o
 Assuming 20 groups of students. What is the likelihood that at least two groups come up with the same histograms in the case for n (=100)?
 
 
+\textbf{Answer:}
+\textbf{Code:}
+\lstinputlisting{dice.py}
 
+\includegraphics[width=450px]{hist1}
+\label{histogram for n = 100}
+%\caption{histogram for n = 100}
+\includegraphics[width=450px]{cdf1}
+\label{CDF plot with 2 rounds for n = 100}
+%\caption{CDF plot with 2 rounds for n = 100}
+\includegraphics[width=450px]{hist2}
+\label{histogram for n = 1000}
+%\caption{histogram for n = 1000}
+\includegraphics[width=450px]{cdf2}
+\label{CDF plot with 2 rounds for n = 1000}
+%\caption{CDF plot with 2 rounds for n = 1000}
+\includegraphics[width=610px]{cons2}
+
+6.: The more values we use for computations, the more close are the functions.
+N is antipropotional to the point-wise distance.
 
 
 \makefooter
