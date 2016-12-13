@@ -4,8 +4,8 @@
 # Johannes Kirchner - jkirchner@uni-koblenz.de
 # Abdul Afghan - abdul.afghan@outlook.de
 
-# import numpy as np
-# import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib.pyplot as plt
 import logging
 import random
 import operator
@@ -24,16 +24,15 @@ uniform_probabilities = {' ': 0.1875, 'a': 0.03125, 'c': 0.03125, 'b': 0.03125, 
 def read_file(file):
     with open(file) as f:
         data = f.read().replace('\n', '')
-
     return data
 
 
-def write_file(generated_string):
-    with open("generated_sample.txt", 'w') as f:
+def write_file(filename, generated_string):
+    with open(filename, 'w') as f:
         f.write(generated_string)
 
-    t = str(time.time() - start_time)
-    logging.info("[" + t + "] " + "Finished writing file. \n\n")
+    t = str(round((time.time() - start_time), 2))
+    logging.info("[" + t + "] " + "Finished writing \"" + filename + "\" file. \n\n")
     return
 
 
@@ -54,7 +53,7 @@ def count_chars(data):
             continue
 
     logging.info(str(count) + ' | ' + str(char_dict) + "\n\n")
-    t = str(time.time() - start_time)
+    t = str(round((time.time() - start_time), 2))
     logging.info("[" + t + "] " + "Finished counting the chars. Found " + str(count) + " chars.\n\n")
     return count, char_dict
 
@@ -65,7 +64,7 @@ def calculate_percentage(count, char_dict):
     for key, value in char_dict.items():
         rel_char[key] = value / count
 
-    t = str(time.time() - start_time)
+    t = str(round((time.time() - start_time), 2))
     logging.info("[" + t + "] " + "Finished calculating percentages\n\n")
     return rel_char
 
@@ -82,49 +81,99 @@ def add_percentage(rel_char):
         added_percentage.append((key, x))
         sum_percentage = x
 
-    t = str(time.time() - start_time)
+    t = str(round((time.time() - start_time), 2))
     logging.info("[" + t + "] " + "Finished adding percentages\n\n")
     return added_percentage
 
 
 def sample_data(count, added_percentage):
     generated_string = ""
+    char_dict = {'a': 0, 'b': 0, 'c': 0, 'd': 0, 'e': 0, 'f': 0, 'g': 0, 'h': 0, 'i': 0, 'j': 0, 'k': 0, 'l': 0,
+                 'm': 0, 'n': 0, 'o': 0, 'p': 0, 'q': 0, 'r': 0, 's': 0, 't': 0, 'u': 0, 'v': 0, 'w': 0, 'x': 0,
+                 'y': 0, 'z': 0, ' ': 0}
 
     for i in range(0, count):
         r = random.random()
         for key, value in added_percentage:
             if r <= value:
                 generated_string += key
-                if i < 10:
-                    print(generated_string + "\n")
+                try:
+                    # Increase count by one
+                    char_dict[key] += 1
+                except KeyError:
+                    # Ignore chars that are not part of the dictionary
+                    pass
                 break
 
         if i % 10000000 == 0:
-            t = str(time.time() - start_time)
+            t = str(round((time.time() - start_time), 2))
             logging.info("[" + t + "] " + "Calculated " + str(i) + " chars \n\n")
 
-    t = str(time.time() - start_time)
+    t = str(round((time.time() - start_time), 2))
     logging.info("[" + t + "]  " + "Finished generating strings\n\n")
-    return generated_string
+
+    return generated_string, char_dict
+
+
+def dic_to_sorted_list(char_dict):
+    sorted_char_dict = sorted(char_dict.items(), key=operator.itemgetter(0))
+    keys = []
+    values = []
+
+    for key, value in sorted_char_dict:
+        keys.append(key)
+        values.append(value)
+
+    return keys, values
+
+
+def draw_wrf():
+    char_dict1 = zipf_probabilities
+    char_dict2 = uniform_probabilities
+    x_b = [1, 2, 3, 4]
+    y_b = [1, 4, 9, 6]
+
+    keys1, values1 = dic_to_sorted_list(char_dict1)
+    keys2, values2 = dic_to_sorted_list(char_dict2)
+
+    labels = keys1
+
+    plt.plot(values1, 'ro')
+    plt.plot(values2, 'bo')
+    # You can specify a rotation for the tick labels in degrees or with keywords.
+    plt.xticks(np.arange(len(labels)), labels)
+    # Pad margins so that markers don't get clipped by the axes
+    plt.margins(0.2)
+    # Tweak spacing to prevent clipping of tick-labels
+    plt.subplots_adjust(bottom=0.15)
+    plt.show()
 
 
 def main():
     global start_time
 
-    start_time = time.time()
-    file = "simple-20160801-1-article-per-line"
-    data = read_file(file)
-    count, char_dict = count_chars(data)
+    # Delete content of log file
+    with open('charCounter.log', 'w'):
+        pass
 
-    # rel_char = calculate_percentage(count, char_dict)
-    # logging.info(str(rel_char) + "\n\n")
-    added_percentage_zipf = add_percentage(zipf_probabilities)
-    logging.info("ZIPF PROBABILITIES: \n" + str(added_percentage_zipf) + "\n\n")
-    generated_string_zipf = sample_data(count, added_percentage_zipf)
+    draw_wrf()
 
-    added_percentage_uniform = add_percentage(uniform_probabilities)
-    logging.info("ZIPF PROBABILITIES: \n" + str(added_percentage_uniform) + "\n\n")
-    generated_string_uniform = sample_data(count, added_percentage_uniform)
+    # start_time = time.time()
+    # file = "simple-20160801-1-article-per-line"
+    # data = read_file(file)
+    # count, char_dict = count_chars(data)
+    #
+    # added_percentage_zipf = add_percentage(zipf_probabilities)
+    # logging.info("ZIPF PROBABILITIES: \n" + str(added_percentage_zipf) + "\n\n")
+    # generated_string_zipf, char_dict_zipf = sample_data(count, added_percentage_zipf)
+    # #write_file('generated_zipf.txt', generated_string_zipf)
+    # print(char_dict_zipf)
+    #
+    # added_percentage_uniform = add_percentage(uniform_probabilities)
+    # logging.info("UNIFORM PROBABILITIES: \n" + str(added_percentage_uniform) + "\n\n")
+    # generated_string_uniform, char_dict_uniform = sample_data(count, added_percentage_uniform)
+    # #write_file('generated_uniform.txt', generated_string_uniform)
+    # print(char_dict_uniform)
 
 
 if __name__ == '__main__':
