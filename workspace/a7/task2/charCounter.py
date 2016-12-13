@@ -10,6 +10,7 @@ import logging
 import random
 import operator
 import time
+import re
 
 logging.basicConfig(filename='charCounter.log', level=logging.DEBUG)
 start_time = 0
@@ -52,7 +53,6 @@ def count_chars(data):
             # Ignore chars that are not part of the dictionary
             continue
 
-    logging.info(str(count) + ' | ' + str(char_dict) + "\n\n")
     t = str(round((time.time() - start_time), 2))
     logging.info("[" + t + "] " + "Finished counting the chars. Found " + str(count) + " chars.\n\n")
     return count, char_dict
@@ -81,16 +81,15 @@ def add_percentage(rel_char):
         added_percentage.append((key, x))
         sum_percentage = x
 
-    t = str(round((time.time() - start_time), 2))
-    logging.info("[" + t + "] " + "Finished adding percentages\n\n")
     return added_percentage
 
 
-def sample_data(count, added_percentage):
+def sample_data(count, rel_char):
     generated_string = ""
     char_dict = {'a': 0, 'b': 0, 'c': 0, 'd': 0, 'e': 0, 'f': 0, 'g': 0, 'h': 0, 'i': 0, 'j': 0, 'k': 0, 'l': 0,
                  'm': 0, 'n': 0, 'o': 0, 'p': 0, 'q': 0, 'r': 0, 's': 0, 't': 0, 'u': 0, 'v': 0, 'w': 0, 'x': 0,
                  'y': 0, 'z': 0, ' ': 0}
+    added_percentage = add_percentage(rel_char)
 
     for i in range(0, count):
         r = random.random()
@@ -107,12 +106,30 @@ def sample_data(count, added_percentage):
 
         if i % 10000000 == 0:
             t = str(round((time.time() - start_time), 2))
-            logging.info("[" + t + "] " + "Calculated " + str(i) + " chars \n\n")
+            logging.info("[" + t + "] " + "Calculated " + str(i) + " chars")
 
     t = str(round((time.time() - start_time), 2))
     logging.info("[" + t + "]  " + "Finished generating strings\n\n")
 
     return generated_string, char_dict
+
+
+def count_word_rank(s):
+    regex = re.compile("\w+")
+    s_list = regex.findall(s)
+    word_rank = {}
+
+    for s in s_list:
+        try:
+            # Increase count by one
+            word_rank[s] += 1
+        except KeyError:
+            # Ignore chars that are not part of the dictionary
+            word_rank[s] = 1
+
+    sorted_word_rank = sorted(word_rank.items(), key=operator.itemgetter(1), reverse=True)
+
+    return sorted_word_rank
 
 
 def dic_to_sorted_list(char_dict):
@@ -127,22 +144,24 @@ def dic_to_sorted_list(char_dict):
     return keys, values
 
 
-def draw_wrf():
-    char_dict1 = zipf_probabilities
-    char_dict2 = uniform_probabilities
-    x_b = [1, 2, 3, 4]
-    y_b = [1, 4, 9, 6]
+def draw_wrf(word_rank_data, word_rank_zipf, word_rank_uniform):
 
-    keys1, values1 = dic_to_sorted_list(char_dict1)
-    keys2, values2 = dic_to_sorted_list(char_dict2)
+    temp_word_rank_data = []
+    temp_word_rank_zipf = []
+    temp_word_rank_uniform = []
 
-    labels = keys1
+    for word in word_rank_data:
+        temp_word_rank_data.append(word[1])
 
-    plt.plot(values1, 'ro')
-    plt.plot(values2, 'bo')
-    # You can specify a rotation for the tick labels in degrees or with keywords.
-    plt.xticks(np.arange(len(labels)), labels)
-    # Pad margins so that markers don't get clipped by the axes
+    for word in word_rank_zipf:
+        temp_word_rank_zipf.append(word[1])
+
+    for word in word_rank_uniform:
+        temp_word_rank_uniform.append(word[1])
+
+    plt.loglog(temp_word_rank_data, 'r')
+    plt.loglog(temp_word_rank_zipf, 'b')
+    plt.loglog(temp_word_rank_uniform, 'g')
     plt.margins(0.2)
     # Tweak spacing to prevent clipping of tick-labels
     plt.subplots_adjust(bottom=0.15)
@@ -156,25 +175,40 @@ def main():
     with open('charCounter.log', 'w'):
         pass
 
-    draw_wrf()
+    start_time = time.time()
+    file = "simple-20160801-1-article-per-line"
+    data = read_file(file)
 
-    # start_time = time.time()
-    # file = "simple-20160801-1-article-per-line"
-    # data = read_file(file)
-    # count, char_dict = count_chars(data)
-    #
-    # added_percentage_zipf = add_percentage(zipf_probabilities)
-    # logging.info("ZIPF PROBABILITIES: \n" + str(added_percentage_zipf) + "\n\n")
-    # generated_string_zipf, char_dict_zipf = sample_data(count, added_percentage_zipf)
-    # #write_file('generated_zipf.txt', generated_string_zipf)
-    # print(char_dict_zipf)
-    #
-    # added_percentage_uniform = add_percentage(uniform_probabilities)
-    # logging.info("UNIFORM PROBABILITIES: \n" + str(added_percentage_uniform) + "\n\n")
-    # generated_string_uniform, char_dict_uniform = sample_data(count, added_percentage_uniform)
-    # #write_file('generated_uniform.txt', generated_string_uniform)
-    # print(char_dict_uniform)
+    # Count characters and spaces in the simple english wikipedia
+    count, char_dict = count_chars(data)
 
+    # Sample the ZIPF distribution and store the result in an file
+    generated_string_zipf, char_dict_zipf = sample_data(count, zipf_probabilities)
+    write_file('generated_zipf.txt', generated_string_zipf)
+
+    # Sample the Uniform distribution and store the result in an file
+    generated_string_uniform, char_dict_uniform = sample_data(count, uniform_probabilities)
+    write_file('generated_uniform.txt', generated_string_uniform)
+
+    t = str(round((time.time() - start_time), 2))
+    logging.info("[" + t + "]  START WORD RANK CALCULATING \n\n")
+
+    # Count the resulting words from the provided data set and from the generated text
+    word_rank_data = count_word_rank(data)
+    t = str(round((time.time() - start_time), 2))
+    logging.info("[" + t + "]  " + str(word_rank_data[:30]) + "\n\n")
+
+    word_rank_zipf = count_word_rank(generated_string_zipf)
+    t = str(round((time.time() - start_time), 2))
+    logging.info("[" + t + "]  " + str(word_rank_zipf[:30]) + "\n\n")
+
+    word_rank_uniform = count_word_rank(generated_string_uniform)
+    t = str(round((time.time() - start_time), 2))
+    logging.info("[" + t + "]  " + str(word_rank_uniform[:30]) + "\n\n")
+
+    t = str(round((time.time() - start_time), 2))
+    logging.info("[" + t + "]  " + "START DRAWING \n\n")
+    draw_wrf(word_rank_data, word_rank_zipf, word_rank_uniform)
 
 if __name__ == '__main__':
     main()
