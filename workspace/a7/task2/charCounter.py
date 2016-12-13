@@ -4,7 +4,7 @@
 # Johannes Kirchner - jkirchner@uni-koblenz.de
 # Abdul Afghan - abdul.afghan@outlook.de
 
-# import numpy as np
+import numpy as np
 import matplotlib.pyplot as plt
 import logging
 import random
@@ -115,14 +115,33 @@ def sample_data(count, added_percentage):
     return generated_string, char_dict
 
 
-def draw_wrf(char_dict):
-    x = [1, 2, 3, 4]
-    y = [1, 4, 9, 6]
-    labels = ['Frogs', 'Hogs', 'Bogs', 'Slogs']
+def dic_to_sorted_list(char_dict):
+    sorted_char_dict = sorted(char_dict.items(), key=operator.itemgetter(0))
+    keys = []
+    values = []
 
-    plt.plot(x, y, 'ro')
+    for key, value in sorted_char_dict:
+        keys.append(key)
+        values.append(value)
+
+    return keys, values
+
+
+def draw_wrf():
+    char_dict1 = zipf_probabilities
+    char_dict2 = uniform_probabilities
+    x_b = [1, 2, 3, 4]
+    y_b = [1, 4, 9, 6]
+
+    keys1, values1 = dic_to_sorted_list(char_dict1)
+    keys2, values2 = dic_to_sorted_list(char_dict2)
+
+    labels = keys1
+
+    plt.plot(values1, 'ro')
+    plt.plot(values2, 'bo')
     # You can specify a rotation for the tick labels in degrees or with keywords.
-    plt.xticks(x, labels, rotation='vertical')
+    plt.xticks(np.arange(len(labels)), labels)
     # Pad margins so that markers don't get clipped by the axes
     plt.margins(0.2)
     # Tweak spacing to prevent clipping of tick-labels
@@ -137,22 +156,24 @@ def main():
     with open('charCounter.log', 'w'):
         pass
 
-    start_time = time.time()
-    file = "simple-20160801-1-article-per-line"
-    data = read_file(file)
-    count, char_dict = count_chars(data)
+    draw_wrf()
 
-    added_percentage_zipf = add_percentage(zipf_probabilities)
-    logging.info("ZIPF PROBABILITIES: \n" + str(added_percentage_zipf) + "\n\n")
-    generated_string_zipf, char_dict_zipf = sample_data(count, added_percentage_zipf)
-    #write_file('generated_zipf.txt', generated_string_zipf)
-    print(char_dict_zipf)
-
-    added_percentage_uniform = add_percentage(uniform_probabilities)
-    logging.info("UNIFORM PROBABILITIES: \n" + str(added_percentage_uniform) + "\n\n")
-    generated_string_uniform, char_dict_uniform = sample_data(count, added_percentage_uniform)
-    #write_file('generated_uniform.txt', generated_string_uniform)
-    print(char_dict_uniform)
+    # start_time = time.time()
+    # file = "simple-20160801-1-article-per-line"
+    # data = read_file(file)
+    # count, char_dict = count_chars(data)
+    #
+    # added_percentage_zipf = add_percentage(zipf_probabilities)
+    # logging.info("ZIPF PROBABILITIES: \n" + str(added_percentage_zipf) + "\n\n")
+    # generated_string_zipf, char_dict_zipf = sample_data(count, added_percentage_zipf)
+    # #write_file('generated_zipf.txt', generated_string_zipf)
+    # print(char_dict_zipf)
+    #
+    # added_percentage_uniform = add_percentage(uniform_probabilities)
+    # logging.info("UNIFORM PROBABILITIES: \n" + str(added_percentage_uniform) + "\n\n")
+    # generated_string_uniform, char_dict_uniform = sample_data(count, added_percentage_uniform)
+    # #write_file('generated_uniform.txt', generated_string_uniform)
+    # print(char_dict_uniform)
 
 
 if __name__ == '__main__':
