@@ -73,7 +73,7 @@ Without applying any modeling methods just focus on the semantics of each docume
 
 \textbf{Answer:}\\
 \\
-$D_1$ and $D_2$ should be most similar, because four words which occur in $D_1$ also occur in $D_2$ (is, text, web, science). None of the words in $D_3$ appears in either $D_1$ or $D_2$.
+$D_1$ and $D_2$ should be most similar, because four words which occur in $D_1$ also occur in $D_2$ (is, text, web, science). None of the words in $D_3$ appears in either $D_1$ or $D_2$. Also, $D_1$ and $D_2$ are most similar in terms of their meaning, compared to $D_3$. Both Documents cover the description of an object ('this document is about ...', 'web science is covering ...'), whereas $D_3$ covers a subject which can be applied onto other objects.
 
 \subsection{Model the documents as vectors and use the cosine similarity}
 Now recall that we used vector spaces in the lecture in order to model the documents. 
@@ -92,53 +92,68 @@ Now recall that we used vector spaces in the lecture in order to model the docum
 
 \begin{enumerate}
 \item You need one base vector for every unique word in each document. Since there are 19 unique words in $D_1, D_2~\&~D_3$, you need 19 base Vectors.
-\item Each dimension stands for the existence of a unique word in our Set of Documents.
+\item Each dimension stands for the existence of a unique word in a Set of documents.
 \item There are as many dimensions as there are base vectors, or rather, as there are unique words.
-\item Every base vector is a n-dimensional (in this case 19-dimensional) vector, which has only 0's except in the dimension the word is assigned to. For example, the word 'this' would be the first dimension, so it's base vector would be $\begin{pmatrix} 1 \\ 0 \\ ... \\ 0 \end{pmatrix}$.\\
-That's why it's more useful to list the dimension of each word, instead of listing each vector. In the latter case, the table would be very long.
+\item Every base vector is a n-dimensional (in this case 19-dimensional) vector, which has only 0's except in the row the word is assigned to. For example, the word 'this' would be the first row, so it's base vector would be $\begin{pmatrix} 1 \\ 0 \\ ... \\ 0 \end{pmatrix}$.\\
 
-\begin{tabular}{|c|c|}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
 \hline
-Word & Dimension \\
+ & this  & is & a & text & about & web & science & covering & the & analysis  \\
 \hline
-this & 1\\
-is & 2\\ 
-a & 3\\
-text & 4\\
-about & 5\\
-web & 6\\
-science & 7\\
-covering & 8\\
-the & 9\\
-analysis & 10\\
-of & 11\\
-corpora & 12\\
-scientific & 13\\
-methods & 14\\
-are & 15\\
-used & 16\\
-to & 17\\
-analyze & 18\\
-webpages & 19 \\
+Vector & $\begin{pmatrix} 1 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \end{pmatrix}$ & $\begin{pmatrix} 0 \\ 1 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \end{pmatrix}$ & $\begin{pmatrix} 0 \\ 0 \\ 1 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \end{pmatrix}$ & $\begin{pmatrix} 0 \\ 0 \\ 0 \\ 1 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \end{pmatrix}$ & $\begin{pmatrix} 0 \\ 0 \\ 0 \\ 0 \\ 1 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \end{pmatrix}$ & $\begin{pmatrix} 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 1 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \end{pmatrix}$ & $\begin{pmatrix} 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 1 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \end{pmatrix}$ & $\begin{pmatrix} 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 1 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \end{pmatrix}$ & $\begin{pmatrix} 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 1 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \end{pmatrix}$ & $\begin{pmatrix} 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 1 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \end{pmatrix}$  \\
 \hline
-\end{tabular}
-\item $\vec{D_1} =  1 \cdot \begin{pmatrix} 1 \\ 0 \\ ... \\ 0 \end{pmatrix} + 1 \cdot  \begin{pmatrix} 0 \\ 1 \\ ... \\ 0 \end{pmatrix} + 1 \cdot \begin{pmatrix} 0 \\ 0 \\ 1 \\ ... \\ 0 \end{pmatrix} + 1 \cdot \begin{pmatrix} 0 \\ 0 \\ 0 \\ 1 \\ ... \\ 0 \end{pmatrix} + 1 \cdot \begin{pmatrix} 0  \\ 0 \\ 0 \\ 0 \\ 1 \\ ... \\ 0 \end{pmatrix} + 1 \cdot \begin{pmatrix} 0  \\ 0 \\ 0 \\ 0 \\ 0 \\ 1 \\ ... \\ 0 \end{pmatrix} + 1 \cdot \begin{pmatrix} 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 1 \\ ... \\ 0 \end{pmatrix} = \begin{pmatrix} 1  \\ 1 \\ 1 \\ 1 \\ 1 \\ 1 \\ 1 \\ ... \\ 0 \end{pmatrix}$ \\
+Abbrevation & $w_1$ & $w_2$ & $w_3$ &  $w_4$ & $w_5$ & $w_6$ & $w_7$ & $w_8$ & $w_9$ & $w_ {10}$ \\
+\hline
+\end{tabular}\\
 \\
- $\vec{D_2} =  1 \cdot \begin{pmatrix} 1 \\ 0 \\ ... \\ 0 \end{pmatrix} + 1 \cdot  \begin{pmatrix} 0 \\ 1 \\ ... \\ 0 \end{pmatrix} + 1 \cdot \begin{pmatrix} 0 \\ 0 \\ 1 \\ ... \\ 0 \end{pmatrix} + 1 \cdot \begin{pmatrix} 0 \\ 0 \\ 0 \\ 1 \\ ... \\ 0 \end{pmatrix} + 1 \cdot \begin{pmatrix} 0  \\ 0 \\ 0 \\ 0 \\ 1 \\ ... \\ 0 \end{pmatrix} + 1 \cdot \begin{pmatrix} 0  \\ 0 \\ 0 \\ 0 \\ 0 \\ 1 \\ ... \\ 0 \end{pmatrix} + 1 \cdot \begin{pmatrix} 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 1 \\ ... \\ 0 \end{pmatrix} = \begin{pmatrix} 1  \\ 1 \\ 1 \\ 1 \\ 1 \\ 1 \\ 1 \\ ... \\ 0 \end{pmatrix}$
-\item
-\item
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+\hline
+ & of & corpora & scientific & methods &  are & used & to & analyze & webpages \\
+\hline
+Vector & $\begin{pmatrix} 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 1 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \end{pmatrix}$ & $\begin{pmatrix} 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 1 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \end{pmatrix}$ & $\begin{pmatrix} 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 1 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \end{pmatrix}$ & $\begin{pmatrix} 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 1 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \end{pmatrix}$ & $\begin{pmatrix} 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 1 \\ 0 \\ 0 \\ 0 \\ 0 \end{pmatrix}$ & $\begin{pmatrix} 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 1 \\ 0 \\ 0 \\ 0 \end{pmatrix}$ & $\begin{pmatrix} 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 1 \\ 0 \\ 0 \end{pmatrix}$ & $\begin{pmatrix} 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 1 \\ 0 \end{pmatrix}$ & $\begin{pmatrix} 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 1 \end{pmatrix}$ \\
+\hline
+Abbrevation & $w_{11}$ & $w_{12}$ & $w_{13}$ & $w_{14}$ & $w_{15}$ & $w_{16}$ & $w_{17}$ & $w_{18}$ & $w_{19}$ \\
+\hline
+\end{tabular}\\
+\\
+$\vec{D_1} = 1 \cdot w_1 + 1 \cdot w_2 + 1 \cdot w_3 + 1 \cdot w_4 + 1 \cdot w_5 + 1 \cdot w_6 + 1 \cdot w_7 = \begin{pmatrix} 1 \\ 1 \\ 1 \\ 1 \\ 1 \\ 1 \\ 1 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \end{pmatrix} $\\
+\\
+$\vec{D_2} = 1 \cdot w_2 + 1 \cdot w_4 + 1 \cdot w_6 + 1 \cdot w_7 + 1 \cdot w_8 + 1 \cdot w_9 + 1 \cdot w_{10} + 1 \cdot w_{11} + 1 \cdot w_{12} = \begin{pmatrix} 0 \\ 1 \\ 0 \\ 1 \\ 0 \\ 1 \\ 1 \\ 1 \\ 1 \\ 1 \\ 1 \\ 1 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \end{pmatrix} $ \\
+\\
+$\vec{D_3} = 1 \cdot w_{13} + 1 \cdot w_{14} + 1 \cdot w_{15} + 1 \cdot w_{16} + 1 \cdot w_{17} + 1 \cdot w_{18} + 1 \cdot w_{19} = \begin{pmatrix} 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 1 \\ 1 \\ 1 \\ 1 \\ 1 \\ 1 \\ 1 \end{pmatrix} $
+
+\item $\cos{(D_1 D_2)} =  \frac{D_1 \cdot D_2} {||D_1|| \cdot ||D_2||}  \\
+= \frac{1 \cdot 0 + 1 \cdot 1 + 1 \cdot 0 + 1 \cdot 1 + 1 \cdot 0 + 1 \cdot 1 + 1 \cdot 1 + 0 \cdot 1 + 0 \cdot 1 + 0 \cdot 1 + 0 \cdot 1 + 0 \cdot 1 }{\sqrt{7} \cdot \sqrt{7}} \\
+= \frac{4}{7}$ \\
+\\
+$\cos{(D_2 D_3)} =  \frac{D_2 \cdot D_3} {||D_2|| \cdot ||D_3||}  \\
+= \frac{0}{\sqrt{7} \cdot \sqrt{7}} \\
+= 0$\\
+\\
+$\cos{(D_1 D_3)} =  \frac{D_1 \cdot D_3} {||D_1|| \cdot ||D_3||}  \\
+= \frac{0}{\sqrt{7} \cdot \sqrt{7}} \\
+= 0$
+
+\item $\Theta_{D_1 D_2} = cos^{-1}(\frac{4}{7}) = 55,15°$\\
+\\
+$\Theta_{D_2 D_3} = cos^{-1}(0) = 90°$ \\
+\\
+$\Theta_{D_1 D_3} = cos^{-1}(0) = 90°$ \\
+\\
+The smaller the angel is, the more similar two documents are. Therefore, $D_1$ and $D_2$ are most similar.
 \end{enumerate}
 
 \subsection{Discussion}
 Do the results of the model match your expectations from the first subtask? If yes explain why the vector space matches the similarity given from the semantics of the documents. If no explain what the model lacks to take into consideration. Again 500 Words should be enough. 
 
-
+\textbf{Answer:}
+The results match our expectations because we assumed $D_1$ and $D_2$ to be most similar, based off the similar words in the documents. The vector space uses basically the same method by counting which documents have the same words.
 
 %-------------------------------------------------------------------------------
 
 \section{Building generative models and compare them to the observed data (10 points)}
 This week we provide you with two probability distributions for characters and spaces which can be found next to the exercise sheet on the WeST website. Also last week we provided you with a dump of Simple English Wikipedia which should be reused this week.
-
+ 1 0 
 \subsection{build a generator}
 Count the characters and spaces in the Simple English Wikipedia dump. Let the combined number be $n$. 
 Use the sampling method from the lecture to sample $n$ characters (which could be letters or a space) from each distribution.
