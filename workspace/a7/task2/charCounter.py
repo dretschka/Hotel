@@ -64,8 +64,6 @@ def calculate_percentage(count, char_dict):
     for key, value in char_dict.items():
         rel_char[key] = value / count
 
-    t = str(round((time.time() - start_time), 2))
-    logging.info("[" + t + "] " + "Finished calculating percentages\n\n")
     return rel_char
 
 
@@ -144,7 +142,29 @@ def dic_to_sorted_list(char_dict):
     return keys, values
 
 
-def draw_wrf(word_rank_data, word_rank_zipf, word_rank_uniform):
+def wr_probability(word_rank):
+    s = 0
+    word_rank_probability = []
+    c = 0
+    cumulative_word_rank_probability = []
+
+    for word in word_rank:
+        s += word[1]
+
+    print(s)
+    # Calculate probability
+    for word in word_rank:
+        word_rank_probability.append((word[0], (word[1]/s)))
+
+    # Cumulative probability
+    for word in word_rank_probability:
+        c += word[1]
+        cumulative_word_rank_probability.append((word[0], c))
+
+    return cumulative_word_rank_probability
+
+
+def draw_wrf(word_rank_data, word_rank_zipf, word_rank_uniform, slogx):
 
     temp_word_rank_data = []
     temp_word_rank_zipf = []
@@ -159,12 +179,19 @@ def draw_wrf(word_rank_data, word_rank_zipf, word_rank_uniform):
     for word in word_rank_uniform:
         temp_word_rank_uniform.append(word[1])
 
-    plt.loglog(temp_word_rank_data, 'r')
-    plt.loglog(temp_word_rank_zipf, 'b')
-    plt.loglog(temp_word_rank_uniform, 'g')
+    if not slogx:
+        plt.loglog(temp_word_rank_data, 'r')
+        plt.loglog(temp_word_rank_zipf, 'b')
+        plt.loglog(temp_word_rank_uniform, 'g')
+    else:
+        plt.semilogx(temp_word_rank_data, 'r')
+        plt.semilogx(temp_word_rank_zipf, 'b')
+        plt.semilogx(temp_word_rank_uniform, 'g')
+
     plt.margins(0.2)
     # Tweak spacing to prevent clipping of tick-labels
     plt.subplots_adjust(bottom=0.15)
+    #plt.text(.25, .25, "Simple English Wikipedia = Red \nZIPF = Blue \nUniform = Green", transform=ax.transAxes)
     plt.show()
 
 
@@ -189,26 +216,41 @@ def main():
     # Sample the Uniform distribution and store the result in an file
     generated_string_uniform, char_dict_uniform = sample_data(count, uniform_probabilities)
     write_file('generated_uniform.txt', generated_string_uniform)
+    #
+    # t = str(round((time.time() - start_time), 2))
+    # logging.info("[" + t + "]  START WORD RANK CALCULATING \n\n")
+    #
+    # # Count the resulting words from the provided data set and from the generated text
+    # word_rank_data = count_word_rank(data)
+    # t = str(round((time.time() - start_time), 2))
+    # logging.info("[" + t + "]  " + str(word_rank_data[:30]) + "\n\n")
+    #
+    # word_rank_zipf = count_word_rank(generated_string_zipf)
+    # t = str(round((time.time() - start_time), 2))
+    # logging.info("[" + t + "]  " + str(word_rank_zipf[:30]) + "\n\n")
+    #
+    # word_rank_uniform = count_word_rank(generated_string_uniform)
+    # t = str(round((time.time() - start_time), 2))
+    # logging.info("[" + t + "]  " + str(word_rank_uniform[:30]) + "\n\n")
+    #
+    # # Draw the Word Rank Frequency Diagram
+    # t = str(round((time.time() - start_time), 2))
+    # logging.info("[" + t + "]  " + "START DRAWING \n\n")
+    # draw_wrf(word_rank_data, word_rank_zipf, word_rank_uniform, False)
 
-    t = str(round((time.time() - start_time), 2))
-    logging.info("[" + t + "]  START WORD RANK CALCULATING \n\n")
 
-    # Count the resulting words from the provided data set and from the generated text
+    # Draw the CDF Plot
     word_rank_data = count_word_rank(data)
-    t = str(round((time.time() - start_time), 2))
-    logging.info("[" + t + "]  " + str(word_rank_data[:30]) + "\n\n")
+    word_rank_data_probability = wr_probability(word_rank_data)
 
     word_rank_zipf = count_word_rank(generated_string_zipf)
-    t = str(round((time.time() - start_time), 2))
-    logging.info("[" + t + "]  " + str(word_rank_zipf[:30]) + "\n\n")
+    word_rank_zipf_probability = wr_probability(word_rank_zipf)
 
     word_rank_uniform = count_word_rank(generated_string_uniform)
-    t = str(round((time.time() - start_time), 2))
-    logging.info("[" + t + "]  " + str(word_rank_uniform[:30]) + "\n\n")
+    word_rank_uniform_probability = wr_probability(word_rank_uniform)
 
-    t = str(round((time.time() - start_time), 2))
-    logging.info("[" + t + "]  " + "START DRAWING \n\n")
-    draw_wrf(word_rank_data, word_rank_zipf, word_rank_uniform)
+    draw_wrf(word_rank_data_probability, word_rank_zipf_probability, word_rank_uniform_probability, True)
+
 
 if __name__ == '__main__':
     main()
