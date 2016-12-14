@@ -109,9 +109,6 @@ def cumulative_distribution(rel_char):
 # Sample the data
 def sample_data(count, rel_char):
     generated_string = ""
-    char_dict = {'a': 0, 'b': 0, 'c': 0, 'd': 0, 'e': 0, 'f': 0, 'g': 0, 'h': 0, 'i': 0, 'j': 0, 'k': 0, 'l': 0,
-                 'm': 0, 'n': 0, 'o': 0, 'p': 0, 'q': 0, 'r': 0, 's': 0, 't': 0, 'u': 0, 'v': 0, 'w': 0, 'x': 0,
-                 'y': 0, 'z': 0, ' ': 0, '0': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0}
     c_distri = cumulative_distribution(rel_char)
 
     for i in range(0, count):
@@ -120,14 +117,9 @@ def sample_data(count, rel_char):
             # Find lowest value bigger than r
             if r <= value:
                 generated_string += key
-                try:
-                    # Increase count by one
-                    char_dict[key] += 1
-                except KeyError:
-                    # Ignore chars that are not part of the dictionary
-                    pass
                 break
 
+        # Occasionally log progress
         if i % 10000000 == 0:
             t = str(round((time.time() - start_time), 2))
             logging.info("[" + t + "] " + "Calculated " + str(i) + " chars")
@@ -135,7 +127,7 @@ def sample_data(count, rel_char):
     t = str(round((time.time() - start_time), 2))
     logging.info("[" + t + "]  " + "Finished sampling process\n\n")
 
-    return generated_string, char_dict
+    return generated_string
 
 
 # Calculate the word rank by counting the occurrence of each word
@@ -182,10 +174,9 @@ def wr_probability(word_rank):
 # Determine the maximum pointwise distance
 def maximum_pwd(wr_x_probability, wr_data_probability):
     max_pwd = 0
-    print(len(wr_data_probability))
-    print(len(wr_x_probability))
+
     for i in range(0, min(len(wr_x_probability), len(wr_data_probability))):
-        pwd = abs(wr_data_probability[i] - wr_x_probability[i])
+        pwd = abs(wr_data_probability[i][1] - wr_x_probability[i][1])
         if pwd > max_pwd:
             max_pwd = pwd
     return max_pwd
@@ -224,7 +215,7 @@ def draw_wrf(word_rank_data, word_rank_zipf, word_rank_uniform, slogx):
 
     plt.legend(loc=0)
     plt.margins(0.2)
-    plt.show()
+    plt.draw()
 
 
 def main():
@@ -235,19 +226,22 @@ def main():
         pass
 
     start_time = time.time()
-    file = "simple-20160801-1-article-per-line"
-    data = read_file(file)
+
+    t = str(round((time.time() - start_time), 2))
+    logging.info("[" + t + "]  Starting :) \n\n")
 
     # Count characters and spaces in the simple english wikipedia
+    file = "simple-20160801-1-article-per-line"
+    data = read_file(file)
     count, char_dict = count_chars(data)
 
     # Sample the ZIPF distribution and store the result in an file
-    generated_string_zipf, char_dict_zipf = sample_data(count, zipf_probabilities)
-    #write_file('generated_zipf.txt', generated_string_zipf)
+    generated_string_zipf = sample_data(count, zipf_probabilities)
+    write_file('generated_zipf.txt', generated_string_zipf)
 
     # Sample the Uniform distribution and store the result in an file
-    generated_string_uniform, char_dict_uniform = sample_data(count, uniform_probabilities)
-    #write_file('generated_uniform.txt', generated_string_uniform)
+    generated_string_uniform = sample_data(count, uniform_probabilities)
+    write_file('generated_uniform.txt', generated_string_uniform)
 
     t = str(round((time.time() - start_time), 2))
     logging.info("[" + t + "]  START WORD RANK CALCULATING \n\n")
@@ -288,8 +282,8 @@ def main():
     max_pwd_zipf = maximum_pwd(wr_zipf_probability, wr_data_probability)
     max_pwd_uniform = maximum_pwd(wr_uniform_probability, wr_data_probability)
 
-    print("Maximum pointwise distance of ZIPF: " + max_pwd_zipf)
-    print("Maximum pointwise distance of Uniform: " + max_pwd_uniform)
+    print("Maximum pointwise distance of ZIPF: " + str(max_pwd_zipf))
+    print("Maximum pointwise distance of Uniform: " + str(max_pwd_uniform))
 
     # Draw the CDF Plot
     t = str(round((time.time() - start_time), 2))
