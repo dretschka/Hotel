@@ -177,21 +177,47 @@ Let us assume you would want to creat a test corpus for some experiments. That t
 \end{enumerate}
 
 \textbf{Answer:}
+\textbf{Answer to 2.3 "Which generator is closer to the original data":}\\
+The calculated distances are:\\
+Maximum pointwise distance of ZIPF: 0.03700503562224909\\
+Maximum pointwise distance of Uniform: 0.05072979215332735\\
+
+The ZIPF probability is closer to the original data because the maximum point wise distance is smaller. So if we had to choose between the two generators we would use the ZIPF generator. 
+
+When calculating the maximum pointwise distance a second and third time, the results are very similar, but slight changes can occur. 
+
+1:
+Maximum pointwise distance of ZIPF: 0.03700503562224909\\
+Maximum pointwise distance of Uniform: 0.05072979215332735
+
+2:
+Maximum pointwise distance of ZIPF: 0.03687568360913529\\
+Maximum pointwise distance of Uniform: 0.05073612121006859
+
+3.
+Maximum pointwise distance of ZIPF: 0.0369625491214863\\
+Maximum pointwise distance of Uniform: 0.05074700111141321
+
 \textbf{Code:}
 \lstinputlisting{../task2/charCounter.py}
-\textbf{Word Rang Frequency Diagram:}\\
+\textbf{Word Rank Frequency Diagram:}\\
 \hspace*{-100px}
 \includegraphics[width=600px]{../task2/wrfd}
 \textbf{Cumulative Distribution Function Plot:}\\
 \hspace*{-100px}
 \includegraphics[width=600px]{../task2/cdfp}
 \textbf{Terminal output:}\\
+\hspace*{-100px}
+\includegraphics[width=600px]{../task2/terminal_output}
 \textbf{Log Output:}\\
 \hspace*{-100px}
 \includegraphics[width=600px]{../task2/log_output_1}
 \label{Log output part 1}
 \hspace*{-100px}
 \includegraphics[width=600px]{../task2/log_output_2}
+\label{Log output part 2}
+\hspace*{-100px}
+\includegraphics[width=600px]{../task2/log_output_3}
 \label{Log output part 2}
 
 %-------------------------------------------------------------------------------

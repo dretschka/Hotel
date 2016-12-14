@@ -55,16 +55,21 @@ def write_file(filename, generated_string):
         f.write(generated_string)
 
     t = str(round((time.time() - start_time), 2))
-    logging.info("[" + t + "] " + "Finished writing \"" + filename + "\" file. \n\n")
+    logging.info("[" + t + "] " +
+                 "Finished writing \"" + filename + "\" file. \n\n")
     return
 
 
-# Iterate through the string and count the characters as well as the occurrence of each character
+# Iterate through the string and count the characters as well
+# as the occurrence of each character
 def count_chars(data):
     count = 0
-    char_dict = {'a': 0, 'b': 0, 'c': 0, 'd': 0, 'e': 0, 'f': 0, 'g': 0, 'h': 0, 'i': 0, 'j': 0, 'k': 0, 'l': 0,
-                 'm': 0, 'n': 0, 'o': 0, 'p': 0, 'q': 0, 'r': 0, 's': 0, 't': 0, 'u': 0, 'v': 0, 'w': 0, 'x': 0,
-                 'y': 0, 'z': 0, ' ': 0, '0': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0}
+    char_dict = {'a': 0, 'b': 0, 'c': 0, 'd': 0, 'e': 0, 'f': 0,
+                 'g': 0, 'h': 0, 'i': 0, 'j': 0, 'k': 0, 'l': 0,
+                 'm': 0, 'n': 0, 'o': 0, 'p': 0, 'q': 0, 'r': 0,
+                 's': 0, 't': 0, 'u': 0, 'v': 0, 'w': 0, 'x': 0,
+                 'y': 0, 'z': 0, ' ': 0, '0': 0, '1': 0, '2': 0,
+                 '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0}
 
     for i in range(0, len(data)):
         try:
@@ -76,11 +81,13 @@ def count_chars(data):
             continue
 
     t = str(round((time.time() - start_time), 2))
-    logging.info("[" + t + "] " + "Finished counting the chars. Found " + str(count) + " chars.\n\n")
+    logging.info("[" + t + "] " + "Finished counting the chars. Found "
+                 + str(count) + " chars.\n\n")
     return count, char_dict
 
 
-# Calculate the relative values of a given total and a dictionaries of absolute counts
+# Calculate the relative values of a given total
+# and a dictionaries of absolute counts
 def calculate_percentage(count, char_dict):
     rel_char = {}
 
@@ -96,7 +103,8 @@ def cumulative_distribution(rel_char):
     sum_percentage = 0
 
     # Sort the rel_char dictionary by value
-    sorted_rel_char = sorted(rel_char.items(), key=operator.itemgetter(1), reverse=True)
+    sorted_rel_char = sorted(rel_char.items(),
+                             key=operator.itemgetter(1), reverse=True)
 
     for key, value in sorted_rel_char:
         x = sum_percentage + value
@@ -141,10 +149,12 @@ def count_word_rank(s):
             # Increase count by one
             word_rank[s] += 1
         except KeyError:
-            # Create new dictionary entry for chars that are not part of the dict. yet
+            # Create new dictionary entry for chars that
+            # are not part of the dict. yet
             word_rank[s] = 1
 
-    sorted_word_rank = sorted(word_rank.items(), key=operator.itemgetter(1), reverse=True)
+    sorted_word_rank = sorted(word_rank.items(),
+                              key=operator.itemgetter(1), reverse=True)
 
     return sorted_word_rank
 
@@ -199,23 +209,29 @@ def draw_wrf(word_rank_data, word_rank_zipf, word_rank_uniform, slogx):
         temp_word_rank_uniform.append(word[1])
 
     if not slogx:
-        plt.loglog(temp_word_rank_data, 'r', label='Simple English Wikipedia WR')
-        plt.loglog(temp_word_rank_zipf, 'b', label='ZIPF WR')
-        plt.loglog(temp_word_rank_uniform, 'g', label='Uniform WR')
+        plt.loglog(temp_word_rank_data, 'r',
+                   label='Simple English Wikipedia WR')
+        plt.loglog(temp_word_rank_zipf, 'b',
+                   label='ZIPF WR')
+        plt.loglog(temp_word_rank_uniform, 'g',
+                   label='Uniform WR')
         plt.title("word rank frequency diagram")
         plt.xlabel("word rank")
         plt.ylabel("frequency")
     else:
-        plt.semilogx(temp_word_rank_data, 'r', label='Simple English Wikipedia WR')
-        plt.semilogx(temp_word_rank_zipf, 'b', label='ZIPF WR')
-        plt.semilogx(temp_word_rank_uniform, 'g', label='Uniform WR')
+        plt.semilogx(temp_word_rank_data, 'r',
+                     label='Simple English Wikipedia WR')
+        plt.semilogx(temp_word_rank_zipf, 'b',
+                     label='ZIPF WR')
+        plt.semilogx(temp_word_rank_uniform, 'g',
+                     label='Uniform WR')
         plt.title("CDF Plot")
         plt.xlabel("word rank")
         plt.ylabel("cumulative relative frequency")
 
     plt.legend(loc=0)
     plt.margins(0.2)
-    plt.draw()
+    plt.show()
 
 
 def main():
@@ -246,52 +262,63 @@ def main():
     t = str(round((time.time() - start_time), 2))
     logging.info("[" + t + "]  START WORD RANK CALCULATING \n\n")
 
-    # Count the resulting words from the provided data set and from the generated text
+    # Count the resulting words from the provided data set and
+    # from the generated text
     word_rank_data = count_word_rank(data)
     t = str(round((time.time() - start_time), 2))
-    logging.info("[" + t + "]  " + str(word_rank_data[:30]) + "\n\n")
+    logging.info("[" + t + "]  " +
+                 str(word_rank_data[:30]) + "\n\n")
 
     word_rank_zipf = count_word_rank(generated_string_zipf)
     t = str(round((time.time() - start_time), 2))
-    logging.info("[" + t + "]  " + str(word_rank_zipf[:30]) + "\n\n")
+    logging.info("[" + t + "]  " +
+                 str(word_rank_zipf[:30]) + "\n\n")
 
     word_rank_uniform = count_word_rank(generated_string_uniform)
     t = str(round((time.time() - start_time), 2))
-    logging.info("[" + t + "]  " + str(word_rank_uniform[:30]) + "\n\n")
+    logging.info("[" + t + "]  " +
+                 str(word_rank_uniform[:30]) + "\n\n")
 
     # Draw the Word Rank Frequency Diagram
     t = str(round((time.time() - start_time), 2))
-    logging.info("[" + t + "]  " + "Drawing the Word Rank Frequency Diagram ... \n\n")
+    logging.info("[" + t + "]  " +
+                 "Drawing the Word Rank Frequency Diagram ... \n\n")
     draw_wrf(word_rank_data, word_rank_zipf, word_rank_uniform, False)
 
     # Calculate the word rank and the word probability for each data set
     t = str(round((time.time() - start_time), 2))
     logging.info("[" + t + "]  " + "Calculating the WR ... \n\n")
     word_rank_data = count_word_rank(data)
-    wr_data_probability, cwr_data_probability = wr_probability(word_rank_data)
+    wr_data_probability, cwr_data_probability = \
+        wr_probability(word_rank_data)
 
     word_rank_zipf = count_word_rank(generated_string_zipf)
-    wr_zipf_probability, cwr_zipf_probability = wr_probability(word_rank_zipf)
+    wr_zipf_probability, cwr_zipf_probability = \
+        wr_probability(word_rank_zipf)
 
     word_rank_uniform = count_word_rank(generated_string_uniform)
-    wr_uniform_probability, cwr_uniform_probability = wr_probability(word_rank_uniform)
+    wr_uniform_probability, cwr_uniform_probability = \
+        wr_probability(word_rank_uniform)
+
+    # Draw the CDF Plot
+    t = str(round((time.time() - start_time), 2))
+    logging.info("[" + t + "]  " + "Drawing the CDF Plot ... \n\n")
+    draw_wrf(cwr_data_probability, cwr_zipf_probability,
+             cwr_uniform_probability, True)
 
     # Calculate the maximum pointwise distance
     t = str(round((time.time() - start_time), 2))
-    logging.info("[" + t + "]  " + "Calculating the maximum pointwise distance ... \n\n")
+    logging.info("[" + t + "]  " +
+                 "Calculating the maximum pointwise distance ... \n\n")
     max_pwd_zipf = maximum_pwd(wr_zipf_probability, wr_data_probability)
     max_pwd_uniform = maximum_pwd(wr_uniform_probability, wr_data_probability)
 
     print("Maximum pointwise distance of ZIPF: " + str(max_pwd_zipf))
     print("Maximum pointwise distance of Uniform: " + str(max_pwd_uniform))
 
-    # Draw the CDF Plot
-    t = str(round((time.time() - start_time), 2))
-    logging.info("[" + t + "]  " + "Drawing the CDF Plot ... \n\n")
-    draw_wrf(cwr_data_probability, cwr_zipf_probability, cwr_uniform_probability, True)
-
     t = str(round((time.time() - start_time), 2))
     logging.info("[" + t + "]  " + "FINISHED \n\n")
+
 
 if __name__ == '__main__':
     main()
