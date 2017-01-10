@@ -1,0 +1,45 @@
+import pandas as pd
+
+store = pd.HDFStore('store.h5')#read .h5 file
+df1=store['df1']
+df2=store['df2']
+print df1['name'] # select column "name"
+print df1.name # select column "name"
+print df1.loc[9] #select row with id equals 9
+print df1[5:10] #select rows from 6th to 9th (first row is 0)
+print df2.loc[0].out_links #select outlinks of article with id=0
+
+#show all columns where column "name" equals "Germany"
+print df2[df2.name=="Germany"]
+
+#show column out_links for rows where name is from list ["Germany","Austria"]
+print df2[df2.name.isin(["Germany","Austria"])].out_links
+
+#show all columns where column "text" contains word "good"
+print df1[df1.text.str.contains("good")]
+
+#add word "city" to the beginning of each text value
+#(IT IS ONLY SHOWS RESULT OF OPERATION, see explanation below!)
+print df1.text.apply(lambda x: "city "+x)
+
+#make all text lower case and split text by spaces
+df1[["text"]]=df1.text.str.lower().str.split()
+
+def do_sth(x):
+	#here is your function
+	#
+	#
+	return x
+
+#apply do_sth function to text column
+#Iit will not change column itself, it will only show the result of aplication
+print df1.text.apply(do_sth())
+
+#you always have to assign result to , e.g., column,
+#in order it affects your data.
+#Some functions indeed can change the DataFrame by
+#applying them with argument inplace=True
+df1[["text"]]=df1.text.apply(do_sth())
+
+#delete column "text"
+df1.drop('text', axis=1, inplace=True)
