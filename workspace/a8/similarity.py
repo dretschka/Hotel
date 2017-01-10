@@ -8,7 +8,6 @@ import logging
 import time
 import pandas as pd
 import re
-import math
 import numpy as np
 from numpy import zeros
 import operator
@@ -45,7 +44,7 @@ def create_set(s):
     word_set = set()
 
     for s in s_list:
-        word_set.add(s)
+        word_set.add(s.lower())
 
     return word_set
 
@@ -70,10 +69,10 @@ def calc_term_freq(s):
 
 def calc_document_freq(s):
     #create set of the given string in order to get only one occurrence of each word
+
     s_set = create_set(s)
 
     for s in s_set:
-        s = s.lower()
         try:
             # Increase count by one
             document_freq[s] += 1
@@ -93,7 +92,7 @@ def calcJaccardSimilarity(wordset1, wordset2):
 
 
 # Compute the document frequency and store it in global dictionary document_freq
-def calc_doc_freq(df1):
+def log_doc_freq(df1):
     t = str(round((time.time() - start_time), 2))
     logging.info("[" + t + "]  Compute document frequency ...")
 
@@ -122,7 +121,7 @@ def calc_tfidf(term, term_freq, df1):
     # 3: document frequency of the term
     document_freq_word = document_freq[term]
 
-    tfidf = term_freq * math.log((math.fabs(amount_of_documents) / document_freq_word))
+    tfidf = term_freq * np.log(amount_of_documents / document_freq_word)
 
     return tfidf
 
@@ -191,35 +190,32 @@ def calculateCosineSimilarity(tfIdfDict1, tfIdfDict2):
     # Use the TFIDF instead of the TF?
 
     # Calculate the vector for tfIdfDict1
-    article_vector1 = 0
+    article_vector1 = np.zeros(len(document_freq))
     for term, tfidf in tfIdfDict1.items():
         # Get the vector corresponding to the current word
         vec = word_vector[term]
         # Multiply vector with tfidf
         article_vector1 += vec * tfidf
+        #print("1 | T:" + term + "   TFIDF: " + str(tfidf))
 
     # Calculate the vector for tfIdfDict2
-    article_vector2 = 0
+    article_vector2 = np.zeros(len(document_freq))
     for term, tfidf in tfIdfDict2.items():
         # Get the vector corresponding to the current word
         vec = word_vector[term]
         # Multiply vector with tfidf
         article_vector2 += vec * tfidf
+        #print("2 | T:" + term + "   TFIDF: " + str(tfidf))
 
     # Get the dot product of the vectors
     dot = article_vector1.dot(article_vector2)
 
     # Get the length of both vectors
-    #length_vector1 = np.sqrt(article_vector1.dot(article_vector1))
-    #length_vector2 = np.sqrt(article_vector2.dot(article_vector2))
     length_vector1 = np.linalg.norm(article_vector1)
     length_vector2 = np.linalg.norm(article_vector2)
 
-    print("Skalar product: " + str(dot))
-    print("L1: " + str(length_vector1))
-    print("L2: " + str(length_vector2))
     # Inverse cosine of the dot product divided by the product of the length of both vectors
-    cosine_sim = np.arccos(dot / (length_vector1*length_vector2))
+    cosine_sim = dot / (length_vector1*length_vector2)
 
     return cosine_sim
 
@@ -254,26 +250,42 @@ def main():
     logging.info("[" + t + "] --- Started calculations for 1.1.2 --- \n\n")
 
     # Compute the document frequency and store it in global dictionary document_freq
-    calc_doc_freq(df1)
+    ##log_doc_freq(df1)
 
     # Compute a dictionary with the article id as key and a dictionary for each article containing the article terms
     # and the corresponding tfidf values as value
-    dic = create_dic_of_all_article_with_terms(df1)
+    ##dic = create_dic_of_all_article_with_terms(df1)
 
     # Compute a dictionary to match a unique vector to a specific word.
     # This is done before calculating the cosine similarity so this only has to be executed once
-    create_word_vectors()
+    ##create_word_vectors()
 
     # Get ID of the article "Germany" and "Europe"
-    ger_id = df1[df1.name == "Germany"].index[0]
-    eur_id = df1[df1.name == "Europe"].index[0]
+    ##ger_id = df1[df1.name == "Germany"].index[0]
+    ##eur_id = df1[df1.name == "Europe"].index[0]
 
     # Calculate the cosine similarity of both articles
-    cos_sim = calculateCosineSimilarity(dic[ger_id], dic[eur_id])
-    print(cos_sim)
+    ##cos_sim = calculateCosineSimilarity(dic[ger_id], dic[eur_id])
+    ##print(cos_sim)
 
     t = str(round((time.time() - start_time), 2))
     logging.info("[" + t + "] --- Finished calculations for 1.1.2 --- \n\n")
+
+    # --------------------------#
+    # 1.2 Similarity of graphs  #
+    # --------------------------#
+    t = str(round((time.time() - start_time), 2))
+    logging.info("[" + t + "] --- Started calculations for 1.2 --- \n\n")
+
+    germany_outlinks = set(df2[df2.name == "Germany"].out_links.values[0])
+    europe_outlinks = set(df2[df2.name == "Europe"].out_links.values[0])
+    outlinks_jaccard_sim =  calcJaccardSimilarity(germany_outlinks, europe_outlinks)
+    print(outlinks_jaccard_sim)
+
+
+    t = str(round((time.time() - start_time), 2))
+    logging.info("[" + t + "] --- Finished calculations for 1.2 --- \n\n")
+
 
     t = str(round((time.time() - start_time), 2))
     logging.info("[" + t + "] --- Finished --- \n\n")
