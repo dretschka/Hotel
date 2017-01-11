@@ -202,7 +202,8 @@ def compute_sparse_tfidf_vector(article_id):
         # Multiply vector with tfidf
         article_vector += vec * tfidf
 
-    sparse_tfidf_vectors[article_id] = (article_vector, np.linalg.norm(article_vector))
+    sparse_tfidf_vectors[article_id] = (article_vector,
+                                        np.linalg.norm(article_vector))
 
     return
 
@@ -268,7 +269,8 @@ def get_random_articles():
     l = []
 
     for i in range(0, 100):
-        l.append(np.random.choice(df1.index, replace=False))
+        random_index = np.random.choice(df1.index, replace=False)
+        l.append(random_index)
 
     return l
 
@@ -301,7 +303,8 @@ def compute_jaccard_similarity_of_all_articles(articles):
         # Logging
         if i % 10 == 0:
             t = str(round((time.time() - start_time), 2))
-            logging.info("[" + t + "] Finished " + str(i) + "% of all articles")
+            logging.info("[" + t + "] Finished " + str(i) +
+                         "% of all articles")
 
     t = str(round((time.time() - start_time), 2))
     logging.info("[" + t + "]  Done! \n")
@@ -335,7 +338,8 @@ def compute_cosine_similarity_of_all_articles(articles):
         # Logging
         if i % 10 == 0:
             t = str(round((time.time() - start_time), 2))
-            logging.info("[" + t + "] Finished " + str(i) + "% of all articles")
+            logging.info("[" + t + "] Finished " + str(i) +
+                         "% of all articles")
 
     t = str(round((time.time() - start_time), 2))
     logging.info("[" + t + "]  Done! \n")
@@ -371,12 +375,39 @@ def compute_jaccard_similarity_for_outlinks_of_all_articles(articles):
         # Logging
         if i % 10 == 0:
             t = str(round((time.time() - start_time), 2))
-            logging.info("[" + t + "] Finished " + str(i) + "% of all articles")
+            logging.info("[" + t + "] Finished " + str(i) +
+                         "% of all articles")
 
     t = str(round((time.time() - start_time), 2))
     logging.info("[" + t + "]  Done! \n")
 
     return matrix
+
+
+# Add all matrix values to a list and sort it,
+# then return the highest 10 values
+def find_best_matches(matrix):
+    l = []
+    for i in range(0, len(matrix)):
+        for j in range(0, i):
+            l.append((matrix[i, j], (i, j)))
+
+    l.sort(key=lambda tup: tup[0], reverse=True)
+
+    return l[:10]
+
+
+def print_best_matches(matrix1):
+    l1 = find_best_matches(matrix1)
+
+    for i in range(0, len(l1)):
+        x = l1[i][1][0]
+        y = l1[i][1][1]
+        print("| %1.3f | %30s - %-30s |" %
+              (l1[i][0],
+               df1[df1.index == x].name.values[0],
+               df1[df1.index == y].name.values[0]))
+    return
 
 
 def pretty_print_matrix(matrix):
@@ -412,7 +443,8 @@ def main():
         str(df1[df1.name == 'Europe'].text.values[0]))
 
     print("Jaccard Similarity of Germany and Europe: " +
-          str(calcJaccardSimilarity(word_set_germany, word_set_europe)))
+          str(calcJaccardSimilarity(word_set_germany,
+                                    word_set_europe)))
 
     # ----------------------------------------------#
     # 1.1.2 Calculate the cosine similarity for the #
@@ -480,17 +512,19 @@ def main():
     # Find the 100 longest articles
     l_articles = get_longest_articles()
 
-    jaccard_matrix = compute_jaccard_similarity_of_all_articles(l_articles)
-    print("\n\n ---------- JACCARD MATRIX ---------- \n\n")
-    pretty_print_matrix(jaccard_matrix)
+    jaccard_matrix = \
+        compute_jaccard_similarity_of_all_articles(l_articles)
+    cosine_matrix = \
+        compute_cosine_similarity_of_all_articles(l_articles)
+    jaccard_outlinks_matrix = \
+        compute_jaccard_similarity_for_outlinks_of_all_articles(l_articles)
 
-    cosine_matrix = compute_cosine_similarity_of_all_articles(l_articles)
-    print("\n\n ---------- COSINE MATRIX ---------- \n\n")
-    pretty_print_matrix(cosine_matrix)
-
-    jaccard_outlinks_matrix = compute_jaccard_similarity_for_outlinks_of_all_articles(l_articles)
-    print("\n\n ---------- JACCARD MATRIX FOR OUTLINKS ---------- \n\n")
-    pretty_print_matrix(jaccard_outlinks_matrix)
+    print("Longest articles:")
+    print_best_matches(jaccard_matrix)
+    print("-")
+    print_best_matches(cosine_matrix)
+    print("-")
+    print_best_matches(jaccard_outlinks_matrix)
 
     t = str(round((time.time() - start_time), 2))
     logging.info("[" + t + "] --- Started calculations "
@@ -498,17 +532,19 @@ def main():
 
     # Find 100 random articles
     r_articles = get_random_articles()
-    jaccard_matrix = compute_jaccard_similarity_of_all_articles(r_articles)
-    print("\n\n ---------- JACCARD MATRIX ---------- \n\n")
-    pretty_print_matrix(jaccard_matrix)
+    jaccard_matrix = \
+        compute_jaccard_similarity_of_all_articles(r_articles)
+    cosine_matrix = \
+        compute_cosine_similarity_of_all_articles(r_articles)
+    jaccard_outlinks_matrix = \
+        compute_jaccard_similarity_for_outlinks_of_all_articles(r_articles)
 
-    cosine_matrix = compute_cosine_similarity_of_all_articles(r_articles)
-    print("\n\n ---------- COSINE MATRIX ---------- \n\n")
-    pretty_print_matrix(cosine_matrix)
-
-    jaccard_outlinks_matrix = compute_jaccard_similarity_for_outlinks_of_all_articles(r_articles)
-    print("\n\n ---------- JACCARD MATRIX FOR OUTLINKS ---------- \n\n")
-    pretty_print_matrix(jaccard_outlinks_matrix)
+    print("Random articles: ")
+    print_best_matches(jaccard_matrix)
+    print("-")
+    print_best_matches(cosine_matrix)
+    print("-")
+    print_best_matches(jaccard_outlinks_matrix)
 
     t = str(round((time.time() - start_time), 2))
     logging.info("[" + t + "] --- Finished calculations for 1.4 --- \n")
@@ -516,7 +552,8 @@ def main():
     t = str(round((time.time() - start_time), 2))
     logging.info("[" + t + "] --- Finished ---")
 
-    exit(1)
+    # Exit manually, because the log wont be complete otherwise
+    exit(0)
 
 if __name__ == '__main__':
     main()
