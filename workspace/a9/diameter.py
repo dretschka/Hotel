@@ -65,7 +65,7 @@ def get_edges(name):
         edges.append((name,edge))
     return edges
 
-#Note: This program takes very long to terminate, since it has a complexity of O(V * (V * E)), where V is the number of Articles and E is the total number of outgoing links. The algorithm for calculating the shortest path uses the Breadth-First Search Algorithm. It may take several hours to calculate the diameter.     
+#Note: This program takes very long to terminate, since it has a complexity of O(V * (V + E)), where V is the number of Articles and E is the total number of outgoing links. The algorithm for calculating the shortest path uses the Breadth-First Search Algorithm. It may take several hours to calculate the diameter.     
 # That being said, since the longest shortest path possible can only be as large as the amount of articles - 1, the diameter can not exceed that value 
 def main():
     global df1, df2, graph
