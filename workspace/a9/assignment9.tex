@@ -1,0 +1,190 @@
+% Enable warnings about problematic code
+\RequirePackage[l2tabu, orthodox]{nag}
+
+\documentclass{WeSTassignment}
+
+% The lecture title, e.g. "Web Information Retrieval".
+\lecture{Introduction to Web Science}
+% The names of the lecturer and the instructor(s)
+\author{%
+  Prof. Dr.~Steffen~Staab\\{\normalsize\mailto{staab@uni-koblenz.de}} \and
+  Ren{\'e}~Pickhardt\\{\normalsize\mailto{rpickhardt@uni-koblenz.de}} \and
+   Korok~Sengupta\\{\normalsize\mailto{koroksengupta@uni-koblenz.de}} \and 
+   Olga~Zagovora\\{\normalsize\mailto{zagovora@uni-koblenz.de}}
+}
+% Assignment number.
+\assignmentnumber{9}
+% Institute of lecture.
+\institute{%
+  Institute of Web Science and Technologies\\%
+  Department of Computer Science\\%
+  University of Koblenz-Landau%
+}
+% Date until students should submit their solutions.
+\datesubmission{January 18, 2016, 10:00 a.m.}
+% Date on which the assignments will be discussed in the tutorial.
+\datetutorial{January 20, 2016, 12:00 p.m.}
+
+% Set langauge of text.
+\setdefaultlanguage[
+  variant = american, % Use American instead of Britsh English.
+]{english}
+
+% Specify bib file location.
+\addbibresource{bibliography.bib}
+
+% For left aligned centerd boxes
+% see http://tex.stackexchange.com/a/25591/75225
+\usepackage{varwidth}
+
+% ==============================================================================
+% Document
+
+\begin{document}
+
+\maketitle
+%Please look at the lessons 1) \textbf{Similarity of Text} \& 2) \textbf{Generative Models}
+
+For all the assignment questions that require you to write scripts, make sure to \textbf{include the scripts in the answer sheet, along with a separate python file.} Where screen shots are required, please add them in the answers directly and not as separate files.\\ \\ 
+
+%Please mention your team Names here: 
+Team Name: hotel
+
+Andrea Mildes - mildes@uni-koblenz.de
+
+Sebastian Blei - sblei@uni-koblenz.de
+
+Johannes Kirchner - jkirchner@uni-koblenz.de
+
+Abdul Afghan - abdul.afghan@outlook.de
+
+
+
+\section{Generative models (abstract) (10 points)}
+
+In the lecture sessions you will learn about 6 potential parts you could find in research paper
+abstracts. Consider the following research paper abstract\footnote{\url {https://www.princeton.edu/~mjs3/salganik_dodds_watts06_full.pdf}}
+\blockquote{
+Hit songs, books, and movies are many times more successful than average, suggesting that “the best” alternatives are qualitatively different from ``the rest''; yet experts routinely fail to predict which products will succeed.
+We investigated this paradox experimentally, by creating an artificial ``music
+market'' in which 14,341 participants downloaded previously unknown songs
+either with or without knowledge of previous participants’ choices. Increasing
+the strength of social influence increased both inequality and unpredictability of success. Success was also only partly determined by quality: The best
+songs rarely did poorly, and the worst rarely did well, but any other result
+was possible.}
+
+\begin{enumerate}
+\item Name the 6 potential parts you could find in research paper abstracts.
+\item Mark all parts you can find in the given abstract.
+\end{enumerate}
+
+\emph{Solution:}
+
+1. Name the 6 potential parts you could find in research paper abstracts:
+\begin{enumerate}
+	\item Background and problem that is tackled in this paper
+	\item The methodology used
+	\item Research questions that are answered in the paper
+	\item A unique solution or idea
+	\item Demonstration of the results
+	\item A point of impact
+\end{enumerate}
+2. Mark all parts that can be found in the given abstract: 
+\begin{enumerate}
+	\item Background and problem that is tackled in this paper \\
+	"Hit songs, books, and movies are many times more successful than average, suggesting that “the best” alternatives are qualitatively different from ``the rest''; yet experts routinely fail to predict which products will succeed."
+	\item The methodology used \\
+	We investigated this paradox experimentally, by creating an artificial ``music
+market'' in which 14,341 participants downloaded previously unknown songs
+either with or without knowledge of previous participants’ choices.
+	\item Demonstration of the results \\
+	Increasing
+the strength of social influence increased both inequality and unpredictability of success. Success was also only partly determined by quality: The best
+songs rarely did poorly, and the worst rarely did well, but any other result
+was possible.
+\end{enumerate}
+
+
+
+
+%-------------------------------------------------------------------------------
+
+\section{Meme spreading model (10 points)}
+We provide you with the following excerpt from the meme paper\footnote{ \url {http://www.nature.com/articles/srep00335} } which will be discussed at the lecture. This part of the paper contains and explanation of their basic model. Your task is to \textbf{list five model choices} that stay in conflict with reality and \textbf{discuss the conflict}. 
+
+\blockquote{ Our basic model assumes a frozen network of agents. An agent maintains a
+time-ordered list of posts, each about a specific meme. Multiple posts may be
+about the same meme. Users pay attention to these memes only. Asynchronously and with uniform probability, each agent can generate a post about a
+new meme or forward some of the posts from the list, transmitting the cor-
+responding memes to neighboring agents. Neighbors in turn pay attention to
+a newly received meme by placing it at the top of their lists. To account for
+the empirical observation that past behavior affects what memes the user will
+spread in the future, we include a memory mechanism that allows agents to
+develop endogenous interests and focus. Finally, we model limited attention
+by allowing posts to survive in an agent’s list or memory only for a finite
+amount of time. When a post is forgotten, its associated meme become less
+represented. A meme is forgotten when the last post carrying that meme
+disappears from the user’s list or memory. Note that list and memory work
+like first-in-first-out rather than priority queues, as proposed in models of
+bursty human activity. In the context of single-agent behavior, our memory
+mechanism is reminiscent of the classic Yule-Simon model.
+
+
+The retweet model we propose is illustrated in Fig. 5. Agents interact on a
+directed social network of friends/followers. Each user node is equipped with
+a screen where received memes are recorded, and a memory with records of
+posted memes. An edge from a friend to a follower indicates that the friend’s
+memes can be read on the follower’s screen (\#x and \#y in Fig. 5(a) appear on
+the screen in Fig. 5(b)). At each step, an agent is selected randomly to post memes to neighbors. The agent may post about a new meme with probability $p_n$ (\#z in Fig. 5(b)). The posted meme immediately appears at the top of the memory. Otherwise, the agent reads posts about existing memes from the screen. Each post may attract the user’s attention with probability pr (the user pays attention to \#x, \#y in Fig. 5(c)). Then the agent either retweets the post (\#x in Fig. 5(c)) with probability $1 − p_m$, or tweets about a meme chosen from memory (\#v triggered by \#y in Fig. 5(c)) with probability $p_m$. Any post in memory has equal opportunities to be selected, therefore memes that appear more frequently in memory are more likely to be propagated (the memory has two posts about \#v in Fig. 5(d)). To model limited user attention, both screen and memory have a finite capacity, which is the time in which a post remains in an agent’s screen or memory. For all agents, posts are removed after one time unit, which simulates a unit of real time, corresponding to Nu steps where Nu is the number of agents. If people use
+the system once weekly on average, the time unit corresponds to a week.}
+
+%\subsection{Hints:}
+%\begin{enumerate}
+%\item  
+%\end{enumerate}
+
+
+\emph{Solution: }
+Five model choices that stay in conflict with reality: 
+\begin{enumerate}
+	\item \textit{"Our basic model assumes a frozen network of agents."} \\
+	In reality, the network is not frozen but changes over time. 
+	\item \textit{"Users pay attention to these memes only":} \\
+	In reality, users pay attention to numerous other things and not only to these memes. 
+	\item \textit{"Note that list and memory work
+like first-in-first-out rather than priority queues, as proposed in models of
+bursty human activity."}\\
+	In reality, it is not always the case that we forget memes in chronological order. For how long we still remember memes depends on how funny or interesting the corresponding meme was.
+	\item \textit{"At each step, an agent is selected randomly to post memes to neighbors."} \\
+	This implicates, that all agents roughly post the same amount of memes. This does not apply to reality, science some people post way more than others. 
+	\item \textit{"Each post may attract the user’s attention with probability pr (the user pays attention to \#x, \#y in Fig. 5(c))."} \\
+	This does not correspond with reality, since some memes attract more attention by using very catchy colors or bold fonts etc., which is not represented in this model. 
+\end{enumerate}
+
+
+%-------------------------------------------------------------------------------
+
+%-------------------------------------------------------------------------------
+
+\section{Graph and its properties (10 points)}
+
+Last week we provided you with a graph of out-links\footnote{\url{http://141.26.208.82/store.zip}} of Simple English Wikipedia which should be reused this week. 
+
+Write a function that returns the %radius and 
+diameter of the given directed network.
+The %radius and 
+diameter of a graph is the longest shortest path in the graph. 
+
+\subsection{Hints}
+\begin{enumerate}
+\item You can first write a function that returns the shortest path between nodes and then find the %radius and
+diameter.
+\item Do not forget to use proper data structures to avoid a memory shortage.  
+\end{enumerate}
+
+\emph{Solution: }
+\lstinputlisting{diameter.py}
+
+\makefooter
+
+\end{document}
