@@ -61,5 +61,7 @@ for i in range(0,5):
     for j in range(1,1000):
         ginis[i].append(gini_coefficient(generateChineseRestaurant(j)))
     plt.plot(ginis[i])
+    plt.xlabel('# of customers')
+    plt.ylabel('Gini-coefficient')
     plt.axis([0,1000,0,1])
     plt.show()
