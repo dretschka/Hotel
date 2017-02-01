@@ -83,6 +83,13 @@ showed in the paper. Will the interpretations be compatible to each other or wil
 \item Do not forget to give proper names of plot axes.
 \end{enumerate}
 
+\textbf{Code:}
+\lstinputlisting{system_entropy.py}
+\textbf{Output:}\\
+\includegraphics[width=400px]{figure_1}\\
+\textbf{Interpretation:}\\
+Comparing our generated plot with the plot provided in the paper, it catches someones eye that both plots are different. While the system entropy in the provided plot rises steadily, the increase over time is much more rapid in our generated graph. However, while the system entropy differs, the average user entropy is roughly the same. This corresponds with the papers observation, that the users breadth of attention remains constant irrespective of the system diversity. So this theory is backed by our plot, because although the system entropy rises over time, the average user entropy stays the same. 
+
 
 %-------------------------------------------------------------------------------
 
@@ -121,10 +128,15 @@ until the coefficient stabilizes. Do five different runs and plot your results i
 \textbf{Code:}
 \lstinputlisting{chinese_restaurant.py}
 \textbf{Output:}\\
+\textbf{Run 1:}\\
 \includegraphics[width=400px]{1stPlot}\\
+\textbf{Run 2:}\\
 \includegraphics[width=400px]{2ndPlot}\\
+\textbf{Run 3:}\\
 \includegraphics[width=400px]{3rdPlot}\\
+\textbf{Run 4:}\\
 \includegraphics[width=400px]{4thPlot}\\
+\textbf{Run 5:}\\
 \includegraphics[width=400px]{5thPlot}\\
 
 
@@ -146,7 +158,7 @@ Calculate the Mean, Standard Deviation and Variance of your noted results for bo
 
 
 
-\emph{Solution:}
+\textbf{Solution:}
 
 Part 1: \\
 
@@ -168,17 +180,17 @@ Standard Deviation: $sqrt(Variance) = 43,684$
 Part 2: \\
 To be honest: After the first discussion we were curious how high Ehrenbreitstein is, so we googled it.\\ In the second discussion we all agreed that the Karthause (the district where the Fernmeldeturm is located) is roughly as high as Ehrenbreitstein, which is about 118 meters. However, we couldn't agree on the height of the Fernmeldetum itself, so our numbers differ anyways. 
 
-Mean: $(150 + 160 + 210) / 3 = 173,333 $
-Variance: $1/2 * ((150-173,333)^2 + (160-173,333)^2 + (210-173,333)^2) = 1/2 * (544,429 + 177,769 + 1344,469) = 1033,333$//
-Standard Deviation: $sqrt(Variance) = 32,146$
-
-As calculated, the variance and standard deviation of part 1 are higher than the variance and deviation of part 2. Most probably this was caused by our discussion, which led to more similar hight-assumptions. For example, all of us agreed that the height of the Karthause is about 120 meters, which would not have been the case without a discussion. 
-
 \begin{tabular}{l|cc}
   Sebastian: & 150 & \\
   Johannes: & 160 & \\
   Andrea: & 210 &
 \end{tabular}
+
+Mean: $(150 + 160 + 210) / 3 = 173,333 $ \\
+Variance: $1/2 * ((150-173,333)^2 + (160-173,333)^2 + (210-173,333)^2) = 1/2 * (544,429 + 177,769 + 1344,469) = 1033,333$ \\
+Standard Deviation: $sqrt(Variance) = 32,146$
+
+As calculated, the variance and standard deviation of part 1 are higher than the variance and deviation of part 2. Most probably this was caused by our discussion, which led to more similar hight-assumptions. For example, all of us agreed that the height of the Karthause is about 120 meters, which would not have been the case without a discussion. 
 
 
 \makefooter
