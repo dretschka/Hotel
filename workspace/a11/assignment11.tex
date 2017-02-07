@@ -1,0 +1,178 @@
+% Enable warnings about problematic code
+\RequirePackage[l2tabu, orthodox]{nag}
+
+\documentclass{WeSTassignment}
+
+% The lecture title, e.g. "Web Information Retrieval".
+\lecture{Introduction to Web Science}
+% The names of the lecturer and the instructor(s)
+\author{%
+  Prof. Dr.~Steffen~Staab\\{\normalsize\mailto{staab@uni-koblenz.de}} \and
+  Ren{\'e}~Pickhardt\\{\normalsize\mailto{rpickhardt@uni-koblenz.de}} \and
+   Korok~Sengupta\\{\normalsize\mailto{koroksengupta@uni-koblenz.de}} \and 
+   Olga~Zagovora\\{\normalsize\mailto{zagovora@uni-koblenz.de}}
+}
+% Assignment number.
+\assignmentnumber{11}
+% Institute of lecture.
+\institute{%
+  Institute of Web Science and Technologies\\%
+  Department of Computer Science\\%
+  University of Koblenz-Landau%
+}
+% Date until students should submit their solutions.
+\datesubmission{February 08, 2017, 10:00 a.m.}
+% Date on which the assignments will be discussed in the tutorial.
+\datetutorial{February 10, 2017, 12:00 p.m.}
+
+% Set langauge of text.
+\setdefaultlanguage[
+  variant = american, % Use American instead of Britsh English.
+]{english}
+
+% Specify bib file location.
+\addbibresource{bibliography.bib}
+
+% For left aligned centerd boxes
+% see http://tex.stackexchange.com/a/25591/75225
+\usepackage{varwidth}
+
+% ==============================================================================
+% Document
+
+\begin{document}
+
+\maketitle
+This assignment focuses on \textbf{Online Advertisement}. As discussed in the class, teams with exact similar answers that give an indication of copying will receive null points for those questions. If you are taking answers from some source, please cite your sources.  
+
+
+
+%Please mention your team Names here: 
+Team Name: hotel
+
+Andrea Mildes - mildes@uni-koblenz.de
+
+Sebastian Blei - sblei@uni-koblenz.de
+
+Johannes Kirchner - jkirchner@uni-koblenz.de
+
+Abdul Afghan - abdul.afghan@outlook.de
+
+\section{Online advertisement (10 points)}
+
+In the videos about online advertisement, you learned about the three different payment
+methods for online advertisement.
+\begin {enumerate}
+\item Name all three methods.
+\item Mention the advantages and disadvantages, for publisher and advertiser, of all the payment methods and explain them in your own words.
+\item Provide real world examples for the three payment methods.
+\end{enumerate}
+
+\textbf{Solution:}
+
+1.1
+\begin{enumerate}
+	\item CPM (Cost per mille)  
+	\item CPC (Cost per click)
+	\item CPA (Cost per acquisition)
+\end{enumerate}
+
+1.2
+\begin{enumerate}
+	\item CPM: The amount of money the advertiser has to pay to the advertising agency (or the publisher) to display the ad 1000 times. This method favors the publisher, since he gets money for every pageview. The advertiser bears all the risk because he has to pay money, no matter if the visitor is interested in his product or even pays attention to the ad. 
+	\item CPC: The amount of money the advertiser has to pay to the advertising agency (or the customer) if the ad is clicked. The publisher bears a small risk because he is only payed if someone clicks the ad. However, this event is likely to happen. One problem of this method is click fraud.  
+	\item CPA: The amount of money the advertiser has to pay to the advertising agency (or the publisher) if the visitor actually triggers an event on the advertisers website (f.e. buys a product). However, this method requires tracking technology and the publisher bears all the risk, since he is only payed when the visitor buys something from the advertiser. 
+\end{enumerate}
+
+1.3
+\begin{enumerate}
+	\item CPM: Advertiser A pays 5€ to advertising agancy B in order to display its ad to 1000 visitors on the site of publisher P  
+	\item CPC: Advertiser A pays 0.05€ to advertising agency B for every click on the ad of A on the site of the publisher P
+	\item CPA: Advertiser A pays 2€  to advertising agency B for every purchased product on the website of A caused by the ad on the site of the publisher P
+\end{enumerate}
+
+%-------------------------------------------------------------------------------
+
+\section{Payments in Online Advertisement(15 points)}
+
+Provide the complete calculation with your solutions for the following questions.
+\begin {enumerate}
+\item An online advertisement company offers you to advertise your website on a
+cost-per-click base (CPC) with a cost of 0.70€ per click. Assuming that in
+average three out of ten visitors of your website are buying a product from which you are earning
+20€, would you accept this offer? What is your average profit/loss per visitor?
+\item What would be the minimal conversion rate (CR) to guarantee your profit? 
+\item Two   online   advertisement   companies  A  and   B   are   making   you   offers   to
+advertise your website. Company A follows a cost-per-mille (CPM) model with a
+cost of 2,40€ for displaying your banner advertisement thousand times. Company B follows a cost-per-action (CPA) model charging a commission of 6\% from every profit generated on your website
+through clicks on the banner ad. Assuming a click-trough-rate (CTR) of 0.5\%, a conversion rate (CR) of 20\% and an average profit of 40€ for every transaction on your website, which offer is the best? 
+\item Assuming an online advertisement campaign for a website has obviously a high
+click-through-rate (CTR), but the earnings from the website are still very poor.
+What do you think could be the problem (please provide your answer in one or two paragraphs)?
+
+\end{enumerate}
+
+\textbf{Solution:}\\
+\textbf{2.1}\\
+I would accept the offer since i would spend 7€ to gain 10 visitors but i would earn 60€ from this 10 visitors. So my profit would be 53€ per 10 visitors or 5.3€ per visitor. \\
+
+\textbf{2.2}\\
+$$x * 20 = 0,7$$ \\
+$$x = 0,035$$ \\
+The conversion rate should be higher then 3,5\% in order to make some profit. 
+
+\textbf{2.3}\\
+Both offers cost the same per acquisition. \\
+
+Offer A:\\
+1000 clicks cost 2,4€\\
+Your ad is displayed 1000 times, but only 0,5\% of the visitors actually click it (CTR).
+$$1000 * 0,005 = 5$$ So only 5 people actually visit your website. You have a CR of 20\%, so 1 out of these 5 people actually buy a product. 
+$$5 * 0,2 = 1$$
+All in all, you pay 2,4€ per acquisition.
+
+Offer B:\\
+Every time an ad causes a purchase on your website you have to pay 6\% of the generated profit. Since your average profit is 40€, you also have to pay 2,4€ per acquisition: 
+$$40 * 0,06 = 2,4€$$
+
+\textbf{2.4}\\
+A high CTR rate is actually a good thing. It indicates, that your ad catches the visitors eye and that he / she is interested in whatever you advertise. However, if the earnings are still low, there could be several reasons for it. Most likely, your Conversion Rate (CR) is low, so many people visit your website, but only very few actually buy something. This could be caused by a poorly designed website. Maybe the visitor of your site doesn't find it appealing or he / she can't find what they are looking for. Or maybe your prices are simply too high or product quality too low ;-) 
+
+Another reason for the low earnings could be, that your spendings are to high. So you attract a lot of visitors, your conversion rate is high, so you sell a lot of products and you have a high transaction volume. However, you may spend to much on advertising, so there is not much profit left for you. A solution for this problem is to compare advertising plans and to choose a more suitable plan for your needs. 
+
+Finally, maybe your ad raises to high expectations and visitors expect something different when visiting your website. You could cope with this problem by altering your ad to represent your offer more realistically. Furthermore, it is very important to select the right target audience for your service. You don't want to target existing customers for example. 
+
+%-------------------------------------------------------------------------------
+
+\section{Online vs. TV Advertisement (10 points)}
+
+\begin{enumerate}
+\item Which of the three payment models is most similar to advertisement on TV (\textit{explain your choice and also why you think other models are not similar})? 
+\item What do you think are the most important advantages of online advertisement
+compared   to   advertisement  on  TV  (\textit{highlight 5 advantages and explain each of them})? 
+\end{enumerate} 
+
+\textbf{Solution:}\\
+\textbf{3.1}\\
+CPM (Cost per mille) is most similar to the payment model used for tv ads. By using the CPM model, the advertiser pays per 1000 viewed ads. This is the only model also suitable for TV ads, since the only measurement available to tv programs is how many people are watching their program. In order to adopt the CPC (cost per click) model, the advertiser would have to track how many visitors actually visit a website after watching the corresponding tv ad, which is not possible. The CPA (cost per acquisition) model is also not applicable for the same reason: You cant track which user bought one of your products after watching the tv ad. 
+
+
+\textbf{3.2}\\
+\begin{enumerate}
+	\item \textbf{User tracking:} Using online advertisement it is possible to track users and their habits and interests. By doing so, an advertiser can show their ad only to a specific target audience and thus increase effectiveness of the ad. 
+	\item \textbf{Various payment models:} Because it is possible to track a user using online ads, a whole new variety of payment models is accessible. While CPM is also possible using TV advertisement, CPC and CPA are only viable in online advertising.
+	\item \textbf{Ad testing:} Advertisers are actually able to test their ad before investing a huge amount of money using online advertising. This lowers the risk and enables advertisers to create better ads. 
+	\item \textbf{Accurate analytics:} Because accurate analytics are possible in online advertisement, advertisers now how well their campaign performes and how much they pay per acquired user etc. 
+	\item \textbf{Low costs:} Online ads are very cheap compared to tv ads, which enables especially small companies to advertise, which may not be able to afford expensive tv ads.
+\end{enumerate}
+
+%-------------------------------------------------------------------------------
+
+
+
+
+
+
+\makefooter
+
+\end{document}
